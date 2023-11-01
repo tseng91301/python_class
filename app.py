@@ -38,7 +38,7 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     try:
-        answer = '"'+answer+'", received!'
+        answer = '"'+msg+'", received!'
         print(answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
     except:
