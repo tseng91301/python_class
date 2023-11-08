@@ -6,12 +6,47 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 import os
 
+import requests
+import re
+import json
+
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 # Channel Access Token
 line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 # Channel Secret
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
+
+@app.route('/testupl',methods=['GET'])
+def testupl():
+    sendcm_first_url="https://send.cm/upload"
+    sendcm_first_response=requests.get(sendcm_first_url)
+    if(sendcm_first_response.status_code==200):
+        t1=sendcm_first_response.text
+        pattern = r'https://[^/]+.send.cm/cgi-bin/upload.cgi\?[^\s]+(?=\")'
+        upload_location=re.search(pattern,t1).group(0)
+        #print(upload_location)
+    else:
+        print("Get upload location failed with status code [{sendcm_first_response.status_code}]")
+
+    upl_form_data={
+        "utype":"anon",
+        "file_expire_unit":"DAY",
+        "keepalive":1
+    }
+
+    response=requests.post(upload_location,data=upl_form_data,files={'file_0':open("test.txt",'rb')})
+    #print(response.status_code)
+    #print(response.text)
+
+    file_id=json.loads(response.text)[0]['file_code']
+    if(file_id=="undef"):
+        print("Failed to upload file, remote banned")
+
+    sendcm_getlink_url="https://send.cm/?op=upload_result&st=OK&fn="+file_id
+    t1=requests.get(sendcm_getlink_url).text
+    dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
+    return dl_link
 
 @app.route('/helloname', methods=['GET'])
 def helloname():
