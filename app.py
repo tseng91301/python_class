@@ -95,6 +95,9 @@ def handle_message(event):
         elif(msg=="testenv"):
             t1=testenv()
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+        elif(msg=="user"):
+            t1 = event.source.user_id
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
     except:
@@ -117,6 +120,9 @@ def welcome(event):
 @app.route('/')
 def hello():
     return 'Hello, World!'
+
+def settxtdata(cli_id,title,information):
+    return
 
 if __name__ == '__main__':
     app.run()
