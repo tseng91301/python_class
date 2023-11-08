@@ -18,10 +18,15 @@ upl_form_data={
     "keepalive":1
 }
 
-response=requests.post(upload_location,data=upl_form_data,files={'file_0':open("test.pdf",'rb')})
-print(response.status_code)
-print(response.text)
+response=requests.post(upload_location,data=upl_form_data,files={'file_0':open("test.txt",'rb')})
+#print(response.status_code)
+#print(response.text)
 
 file_id=json.loads(response.text)[0]['file_code']
 if(file_id=="undef"):
     print("Failed to upload file, remote banned")
+
+sendcm_getlink_url="https://send.cm/?op=upload_result&st=OK&fn="+file_id
+t1=requests.get(sendcm_getlink_url).text
+dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
+print(dl_link)
