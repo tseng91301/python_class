@@ -78,9 +78,9 @@ def handle_message(event):
         #print(answer)
         if(msg=="uploadtest"):
             t1=testupl()
-        else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
+        else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
     except:
         line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred'))
 
