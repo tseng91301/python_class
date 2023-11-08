@@ -1,0 +1,18 @@
+GET /upload HTTP/2
+Host: send.cm
+Cookie: __cflb=0H28uocK7xWY9ysKQ1FuLgybRYw4v6DWPaQPdVdwhho; cf_clearance=1ognV6qlbei18Cj2.3DN1mXtx9AsxjcGK9vCI8jp6xc-1699422501-0-1-d5ddf114.59e757e4.82dcaef4-0.2.1699422501
+Cache-Control: max-age=0
+Sec-Ch-Ua: "Not=A?Brand";v="99", "Chromium";v="118"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.70 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: https://send.cm/upload
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7
+
