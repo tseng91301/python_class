@@ -58,7 +58,7 @@ def testenv():
     env_variable_value = os.getenv("TEST_ENV")
 
     # 如果环境变量不存在，你可以提供一个默认值
-    env_variable_value = os.getenv("PATH", "DEFAULT_VALUE")
+    env_variable_value = os.getenv("TEST_ENV", "DEFAULT_VALUE")
 
     return env_variable_value
 
