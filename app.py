@@ -87,6 +87,10 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     try:
+        if(os.getenv(event.source.user_id+"_mode")=="formpdf"):
+            t1=formpdf(event.source.user_id,msg)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+            return
         answer = '"'+msg+'", received!'
         #print(answer)
         if(msg=="uploadtest"):
@@ -97,6 +101,11 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         elif(msg=="user"):
             t1 = event.source.user_id
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+        elif(msg=="formpdf"):
+            t1=open("pdfcompose/mainmsg.txt",'r').read()
+            os.environ[event.source.user_id+"_mode"] = "formpdf"
+            os.environ[event.source.user_id+"_data"] = "{}"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
@@ -122,6 +131,23 @@ def hello():
     return 'Hello, World!'
 
 def settxtdata(cli_id,title,information):
+    return
+def formpdf(cli_id,arg):
+    data=json.load(os.getenv(cli_id+"_data"))
+    if(os.getenv(cli_id+"_mode2")=="topic1"):
+        data['topic1']=arg
+        os.environ[cli_id+"_mode2"] = ""
+        os.environ[cli_id+"_data"]=json.dumps(data)
+        return "complete topic1 insertion"
+    
+    if(arg=="exit"):
+        os.environ[cli_id+"_mode"] = ""
+        return "mode ended"
+    if(arg=="dump"):
+        return json.dumps(data)
+    if(arg=="topic1"):
+        os.environ[cli_id+"_mode2"] = "topic1"
+        return "Setting topic1 please type your topic 1 (exit topic1 after next input)"
     return
 
 if __name__ == '__main__':
