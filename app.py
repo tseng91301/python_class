@@ -49,6 +49,19 @@ def testupl():
     dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
     return dl_link
 
+@app.route('/testenv',methods=['GET'])
+def testenv():
+    # 设置环境变量
+    os.environ["TEST_ENV"] = "FDSFJHDSJKFHJDSFHJS"
+
+    # 读取一个特定的环境变量
+    env_variable_value = os.getenv("TEST_ENV")
+
+    # 如果环境变量不存在，你可以提供一个默认值
+    env_variable_value = os.getenv("PATH", "DEFAULT_VALUE")
+
+    return env_variable_value
+
 @app.route('/helloname', methods=['GET'])
 def helloname():
     if request.method == 'GET': 
@@ -78,6 +91,9 @@ def handle_message(event):
         #print(answer)
         if(msg=="uploadtest"):
             t1=testupl()
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+        elif(msg=="testenv"):
+            t1=testenv()
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
