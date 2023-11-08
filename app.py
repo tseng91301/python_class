@@ -105,7 +105,7 @@ def handle_message(event):
         elif(msg=="formpdf"):
             t1=open("pdfcompose/mainmsg.txt",'r').read()
             os.environ[event.source.user_id+"_mode"] = "formpdf"
-            os.environ[event.source.user_id+"_data"] = "\{\}"
+            os.environ[event.source.user_id+"_data"] = "{'test':null}"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
