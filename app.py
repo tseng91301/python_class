@@ -42,6 +42,7 @@ def testupl():
     file_id=json.loads(response.text)[0]['file_code']
     if(file_id=="undef"):
         print("Failed to upload file, remote banned")
+        return "Upload failed..."
 
     sendcm_getlink_url="https://send.cm/?op=upload_result&st=OK&fn="+file_id
     t1=requests.get(sendcm_getlink_url).text
@@ -74,7 +75,11 @@ def handle_message(event):
     msg = event.message.text
     try:
         answer = '"'+msg+'", received!'
-        print(answer)
+        #print(answer)
+        if(msg=="uploadtest"):
+            t1=testupl()
+        else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
     except:
         line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred'))
