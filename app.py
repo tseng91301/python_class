@@ -134,11 +134,11 @@ def hello():
 def settxtdata(cli_id,title,information):
     return
 def formpdf(cli_id,arg):
-    data=json.load(os.getenv(cli_id+"_data"))
+    #data=json.load(os.getenv(cli_id+"_data"))
     if(os.getenv(cli_id+"_mode2")=="topic1"):
-        data['topic1']=arg
+        #data['topic1']=arg
         os.environ[cli_id+"_mode2"] = ""
-        os.environ[cli_id+"_data"]=json.dumps(data)
+        #os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic1 insertion"
     
     if(arg=="exit"):
