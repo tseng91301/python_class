@@ -120,6 +120,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         elif(msg=="python"):
             t1="Entering Python coding mode\r\nYou can send Python script to the API to debug"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             os.environ[event.source.user_id+"_mode"] = "python"
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
@@ -169,8 +170,8 @@ def formpdf(cli_id,arg):
 def python_exec(command):
     try:
         output=exec(command)
-    except:
-        output="Command error!"
+    except Exception as e:
+        output=str(e)
     return str(output)
 
 if __name__ == '__main__':
