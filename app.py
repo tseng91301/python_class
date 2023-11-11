@@ -91,22 +91,31 @@ def handle_message(event):
             t1=formpdf(event.source.user_id,msg)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
+        elif(os.getenv(event.source.user_id+"_mode")=="python"):
+            t1=python_exec(msg)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         answer = '"'+msg+'", received!'
         #print(answer)
-        if(msg=="uploadtest"):
+        if(msg=="help"):
+            t1=open("help/helpmain.txt",'r').read()
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+        elif(msg=="upload test"):
             t1=testupl()
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(msg=="testenv"):
+        elif(msg=="test env"):
             t1=testenv()
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         elif(msg=="user"):
             t1 = event.source.user_id
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(msg=="formpdf"):
+        elif(msg=="form pdf"):
             t1=open("pdfcompose/mainmsg.txt",'r').read()
             os.environ[event.source.user_id+"_mode"] = "formpdf"
             os.environ[event.source.user_id+"_data"] = '{"test":"test"}'
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+        elif(msg=="python"):
+            t1="Entering Python coding mode\r\nYou can send Python script to the API to debug"
+            os.environ[event.source.user_id+"_mode"] = "python"
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
     except:
@@ -147,8 +156,17 @@ def formpdf(cli_id,arg):
         return json.dumps(data)
     if(arg=="topic1"):
         os.environ[cli_id+"_mode2"] = "topic1"
-        return "Setting topic1 please type your topic 1 (exit topic1 after next input)"
+        return "Setting topic 1 please type your topic 1 (exit topic1 after next input)"
+    if(arg=="topic2"):
+        os.environ[cli_id+"_mode2"] = "topic2"
+        return "Setting topic 2 please type your topic 2 \n(send divided information, and type 'ok' to exit topic2)\n(enter the same text as the exist information to delete it)"
     return
+def python_exec(command):
+    try:
+        output=exec(command)
+    except:
+        output="Command error!"
+    return str(output)
 
 if __name__ == '__main__':
     app.run()

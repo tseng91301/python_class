@@ -1,0 +1,7 @@
+Line API function:
+form pdf: generate the pdf file by giving some text message
+user: reply with your user id
+upload test: test send.cm script file upload
+test env: give the specific environment variable
+
+Wish you have a good journey with this Line API
