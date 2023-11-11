@@ -92,6 +92,9 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
         elif(os.getenv(event.source.user_id+"_mode")=="python"):
+            if(msg=="exit()"):
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Exit Python command section"))
+                return
             t1=python_exec(msg)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         answer = '"'+msg+'", received!'
