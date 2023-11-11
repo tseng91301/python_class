@@ -86,14 +86,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
+    python_trigger=['python','Python','Py','py']
     try:
         if(os.getenv(event.source.user_id+"_mode")=="formpdf"):
             t1=formpdf(event.source.user_id,msg)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
-        elif(os.getenv(event.source.user_id+"_mode")=="python"):
+        elif os.getenv(event.source.user_id+"_mode") in python_trigger:
             if(msg=="exit()"):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Exit Python command section"))
+                os.environ[event.source.user_id+"_mode"] = ""
                 return
             t1=python_exec(msg)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
