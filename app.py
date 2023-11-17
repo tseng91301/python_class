@@ -93,7 +93,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
         elif os.getenv(event.source.user_id+"_mode") in python_trigger:
-            if(msg=="exit()"):
+            if(detect_exit(msg)):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Exit Python command section"))
                 os.environ[event.source.user_id+"_mode"] = ""
                 return
@@ -116,7 +116,7 @@ def handle_message(event):
         elif(re.match(r"[Ff]{1}orm(\s)*(pdf|PDF)",msg)):
             t1=open("pdfcompose/mainmsg.txt",'r').read()
             os.environ[event.source.user_id+"_mode"] = "formpdf"
-            os.environ[event.source.user_id+"_data"] = '{"test":"test"}'
+            os.environ[event.source.user_id+"_data"] = '{"topic1":"","topic2":[]}'
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         elif msg in python_trigger:
             t1="Entering Python coding mode\r\nYou can send Python script to the API to debug"
@@ -124,8 +124,8 @@ def handle_message(event):
             os.environ[event.source.user_id+"_mode"] = "python"
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
-    except:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred'))
+    except Exception as e:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred: '+e))
 
 @handler.add(PostbackEvent)
 def handle_message(event):
@@ -154,8 +154,13 @@ def formpdf(cli_id,arg):
         os.environ[cli_id+"_mode2"] = ""
         os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic1 insertion"
+    if(os.getenv(cli_id+"_mode2")=="topic2"):
+        tmp=arg.split('\n')
+        data['topic2']=data['topic2']+tmp
+        return "complete topic2 insertion"
+
     
-    if(arg=="exit"):
+    if(detect_exit(arg)):
         os.environ[cli_id+"_mode"] = ""
         return "mode ended"
     if(arg=="dump"):
@@ -173,6 +178,9 @@ def python_exec(command):
     except Exception as e:
         output=str(e)
     return str(output)
+
+def detect_exit(inp):
+    return(re.match(r"[Ee]{1}xit[\(\)]{0,1}[;]{0,1}",inp))
 
 if __name__ == '__main__':
     app.run()
