@@ -10,6 +10,8 @@ import requests
 import re
 import json
 
+#from module import pdfgen
+
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 # Channel Access Token
@@ -66,7 +68,7 @@ def testenv():
 def helloname():
     if request.method == 'GET': 
         return 'Hello ' + request.values['username'] 
-
+    
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -130,8 +132,6 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_message(event):
     print(event.postback.data)
-
-
 @handler.add(MemberJoinedEvent)
 def welcome(event):
     uid = event.joined.members[0].user_id
@@ -155,9 +155,23 @@ def formpdf(cli_id,arg):
         os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic1 insertion"
     if(os.getenv(cli_id+"_mode2")=="topic2"):
+        if(os.getenv(cli_id+"_mode3")=="del"):
+            t1=arg.split('\n')
+            t1=[int(ele) for ele in t1]
+            data['topic2']=rmv(data['topic2'],t1)
+            os.environ[cli_id+"_mode3"] = ""
+            return "success!"
+
         if(arg=="ok"):
             os.environ[cli_id+"_mode2"] = ""
             return "exit topic2 insertion"
+        elif(arg=="del"):
+            out="Please type the number to del that column :\n"
+            out+="to delete multiple data, type ',' between numbers\n"
+            for i,v in data['topic2']:
+                out+=str(i)+": "+v+"\n"
+            os.environ[cli_id+"_mode3"] = "del"
+            return out
         tmp=arg.split('\n')
         data['topic2']=data['topic2']+tmp
         os.environ[cli_id+"_data"]=json.dumps(data)
@@ -197,6 +211,12 @@ def python_exec(command):
     except Exception as e:
         output=str(e)
     return str(output)
+def rmv(inp,ele):
+    tmpa=[]
+    for i,v in enumerate(inp):
+        if i not in ele:
+            tmpa.append(v)
+    return tmpa
 
 def detect_exit(inp):
     return(re.match(r"^[Ee]{1}xit[(\(\))]{0,1}[;]{0,1}$",inp))
