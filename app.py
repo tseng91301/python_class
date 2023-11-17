@@ -156,9 +156,11 @@ def formpdf(cli_id,arg):
         return "complete topic1 insertion"
     if(os.getenv(cli_id+"_mode2")=="topic2"):
         if(os.getenv(cli_id+"_mode3")=="del"):
-            t1=arg.split('\n')
+            t1=arg.split(',')
             t1=[int(ele) for ele in t1]
-            data['topic2']=rmv(data['topic2'],t1)
+            t2=rmv(data['topic2'],t1)
+            data['topic2'].clear()
+            data['topic2']=t2
             os.environ[cli_id+"_mode3"] = ""
             return "success!"
 
