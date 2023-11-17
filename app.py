@@ -173,14 +173,30 @@ def formpdf(cli_id,arg):
                 out+=str(i)+": "+v+"\n"
             os.environ[cli_id+"_mode3"] = "del"
             return out
+        
         tmp=arg.split('\n')
         data['topic2']=data['topic2']+tmp
         os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic2 insertion, if complete insertion, type 'ok'"
     if(os.getenv(cli_id+"_mode2")=="topic3"):
+        if(os.getenv(cli_id+"_mode3")=="del"):
+            t1=arg.split(',')
+            t1=[int(ele) for ele in t1]
+            data['topic2']=rmv(data['topic2'],t1)
+            os.environ[cli_id+"_mode3"] = ""
+            os.environ[cli_id+"_data"]=json.dumps(data)
+            return "success!"
+
         if(arg=="ok"):
             os.environ[cli_id+"_mode2"] = ""
             return "exit topic3 insertion"
+        elif(arg=="del"):
+            out="Please type the number to del that column :\n"
+            out+="to delete multiple data, type ',' between numbers\n"
+            for i,v in enumerate(data['topic3']):
+                out+=str(i)+": "+v+": "+data['topic3'][v]+"\n"
+            os.environ[cli_id+"_mode3"] = "del"
+            return out
         tmp=arg.split('\n')
         tmp2={}
         for con in tmp:
@@ -212,12 +228,20 @@ def python_exec(command):
     except Exception as e:
         output=str(e)
     return str(output)
+
 def rmv(inp,ele):
     tmpa=[]
     for i,v in enumerate(inp):
         if i not in ele:
             tmpa.append(v)
     return tmpa
+def rmv2(inp,ele):
+    tmpa={}
+    for i,v in enumerate(inp):
+        if i not in ele:
+            tmpa.update({v:inp[v]})
+    return tmpa
+
 
 def detect_exit(inp):
     return(re.match(r"^[Ee]{1}xit[(\(\))]{0,1}[;]{0,1}$",inp))
