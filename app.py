@@ -182,7 +182,7 @@ def formpdf(cli_id,arg):
         if(os.getenv(cli_id+"_mode3")=="del"):
             t1=arg.split(',')
             t1=[int(ele) for ele in t1]
-            data['topic2']=rmv(data['topic2'],t1)
+            data['topic3']=rmv(data['topic3'],t1)
             os.environ[cli_id+"_mode3"] = ""
             os.environ[cli_id+"_data"]=json.dumps(data)
             return "success!"
