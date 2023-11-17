@@ -101,7 +101,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         answer = '"'+msg+'", received!'
         #print(answer)
-        if(msg=="help"):
+        if(re.match(r"(-){,2}[hH]{1}elp\s*"),msg):
             t1=open("help/helpmain.txt",'r').read()
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         elif(msg=="upload test"):
@@ -113,12 +113,12 @@ def handle_message(event):
         elif(msg=="user"):
             t1 = event.source.user_id
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(msg=="form pdf"):
+        elif(re.match(r"[Ff]{1}orm(\s)*(pdf|PDF)",msg)):
             t1=open("pdfcompose/mainmsg.txt",'r').read()
             os.environ[event.source.user_id+"_mode"] = "formpdf"
             os.environ[event.source.user_id+"_data"] = '{"test":"test"}'
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(msg=="python"):
+        elif msg in python_trigger:
             t1="Entering Python coding mode\r\nYou can send Python script to the API to debug"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             os.environ[event.source.user_id+"_mode"] = "python"
