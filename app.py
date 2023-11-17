@@ -170,7 +170,7 @@ def formpdf(cli_id,arg):
         tmp2={}
         for con in tmp:
             tmp3=re.split(r":(\s)*",con,1)
-            tmp2[tmp3[0]]=tmp3[1]
+            tmp2[tmp3[0]]=tmp3[2]
         data['topic3']=data['topic3']+tmp2
         os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic2 insertion, if complete insertion, type 'ok'"
