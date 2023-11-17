@@ -168,7 +168,7 @@ def formpdf(cli_id,arg):
         elif(arg=="del"):
             out="Please type the number to del that column :\n"
             out+="to delete multiple data, type ',' between numbers\n"
-            for i,v in data['topic2']:
+            for i,v in enumerate(data['topic2']):
                 out+=str(i)+": "+v+"\n"
             os.environ[cli_id+"_mode3"] = "del"
             return out
