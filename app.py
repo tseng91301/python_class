@@ -116,7 +116,7 @@ def handle_message(event):
         elif(re.match(r"[Ff]{1}orm(\s)*(pdf|PDF)",msg)):
             t1=open("pdfcompose/mainmsg.txt",'r').read()
             os.environ[event.source.user_id+"_mode"] = "formpdf"
-            os.environ[event.source.user_id+"_data"] = '{"topic1":"","topic2":[],"topic3": \{\}}'
+            os.environ[event.source.user_id+"_data"] = json.dumps({"topic1":"","topic2":[],"topic3": {}})
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         elif msg in python_trigger:
             t1="Entering Python coding mode\r\nYou can send Python script to the API to debug"
