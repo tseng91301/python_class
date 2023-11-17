@@ -155,12 +155,25 @@ def formpdf(cli_id,arg):
         os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic1 insertion"
     if(os.getenv(cli_id+"_mode2")=="topic2"):
-        if(detect_exit(arg)):
+        if(arg=="ok"):
             os.environ[cli_id+"_mode2"] = ""
+            return "exit topic2 insertion"
         tmp=arg.split('\n')
         data['topic2']=data['topic2']+tmp
         os.environ[cli_id+"_data"]=json.dumps(data)
-        return "complete topic2 insertion"
+        return "complete topic2 insertion, if complete insertion, type 'ok'"
+    if(os.getenv(cli_id+"_mode2")=="topic3"):
+        if(arg=="ok"):
+            os.environ[cli_id+"_mode2"] = ""
+            return "exit topic3 insertion"
+        tmp=arg.split('\n')
+        tmp2={}
+        for con in tmp:
+            tmp3=re.split(r":(\s)*",con,1)
+            tmp2[tmp3[0]]=tmp3[1]
+        data['topic3']=data['topic3']+tmp2
+        os.environ[cli_id+"_data"]=json.dumps(data)
+        return "complete topic2 insertion, if complete insertion, type 'ok'"
 
     
     if(detect_exit(arg)):
@@ -170,10 +183,13 @@ def formpdf(cli_id,arg):
         return json.dumps(data)
     if(arg=="topic1"):
         os.environ[cli_id+"_mode2"] = "topic1"
-        return "Setting topic 1 please type your topic 1 (exit topic1 after next input)"
+        return "Setting topic 1 please type your topic 1 (exit topic1 after input)"
     if(arg=="topic2"):
         os.environ[cli_id+"_mode2"] = "topic2"
-        return "Setting topic 2 please type your topic 2 \n(send divided information, and type 'ok' to exit topic2)\n(enter the same text as the exist information to delete it)"
+        return "Setting topic 2\n please type your topic 2 \n(send divided information, and type 'ok' to exit topic2)"
+    if(arg=="topic2"):
+        os.environ[cli_id+"_mode2"] = "topic3"
+        return "Setting topic 3\n please type your topic 3 \n(send divided information, and type 'ok' to exit topic2)"
     return
 def python_exec(command):
     try:
