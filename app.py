@@ -101,7 +101,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         answer = '"'+msg+'", received!'
         #print(answer)
-        if(re.match(r"(-){,2}[hH]{1}elp\s*"),msg):
+        if(re.match(r"(-){,2}[hH]{1}elp\s*",msg)):
             t1=open("help/helpmain.txt",'r').read()
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         elif(msg=="upload test"):
