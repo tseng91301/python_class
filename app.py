@@ -7,8 +7,10 @@ from linebot.models import *
 import os
 
 import requests
+from io import BytesIO
 import re
 import json
+from datetime import datetime
 
 #from module import pdfgen
 
@@ -115,7 +117,7 @@ def handle_message(event):
         elif(msg=="user"):
             t1 = event.source.user_id
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(re.match(r"[Ff]{1}orm(\s)*(pdf|PDF)",msg)):
+        elif(re.match(r"^[Ff]{1}orm(\s)*(pdf|PDF)$",msg)):
             t1=open("pdfcompose/mainmsg.txt",'r').read()
             os.environ[event.source.user_id+"_mode"] = "formpdf"
             os.environ[event.source.user_id+"_data"] = json.dumps({"topic1":"","topic2":[],"topic3": {}})
@@ -144,6 +146,53 @@ def welcome(event):
 @app.route('/')
 def hello():
     return 'Hello, World!'
+
+def tomd(datain):
+    out=""
+    out+="# "+datain['topic1']+"\n"
+    for i,v in enumerate(datain['topic2']):
+        out+=str(i+1)+". "+str(v)
+    for i,v in enumerate(datain['topic3']):
+        out+="### "+datain['topic3'][v]
+
+    return out
+def upload_data(inp,v=1,ext="pdf",name=""):
+    inp=str(inp)
+    sendcm_first_url="https://send.cm/upload"
+    sendcm_first_response=requests.get(sendcm_first_url)
+    if(sendcm_first_response.status_code==200):
+        t1=sendcm_first_response.text
+        pattern = r'https://[^/]+.send.cm/cgi-bin/upload.cgi\?[^\s]+(?=\")'
+        upload_location=re.search(pattern,t1).group(0)
+        #print(upload_location)
+    else:
+        print("Get upload location failed with status code [{sendcm_first_response.status_code}]")
+
+    upl_form_data={
+        "utype":"anon",
+        "file_expire_unit":"DAY",
+        "keepalive":1
+    }
+    if(v):
+        
+        # 定义虚拟文件内容
+        file_content = inp.encode('utf-8')
+
+        # 创建一个 BytesIO 对象，用于模拟文件对象
+        virtual_file = BytesIO(file_content)
+
+        response=requests.post(upload_location,data=upl_form_data,files={str(datetime.now())+'.'+str(ext):virtual_file})
+    else:
+        response=requests.post(upload_location,data=upl_form_data,files={'file_0':open(name,'rb')})
+    file_id=json.loads(response.text)[0]['file_code']
+    if(file_id=="undef"):
+        #print("Failed to upload file, remote banned")
+        return "error"
+
+    sendcm_getlink_url="https://send.cm/?op=upload_result&st=OK&fn="+file_id
+    t1=requests.get(sendcm_getlink_url).text
+    dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
+    return dl_link  
 
 def settxtdata(cli_id,title,information):
     return
@@ -215,13 +264,18 @@ def formpdf(cli_id,arg):
         return json.dumps(data)
     if(arg=="topic1"):
         os.environ[cli_id+"_mode2"] = "topic1"
-        return "Setting topic 1 please type your topic 1 (exit topic1 after input)"
+        return "Setting topic 1\n please type your topic 1 (exit topic1 after input)"
     if(arg=="topic2"):
         os.environ[cli_id+"_mode2"] = "topic2"
         return "Setting topic 2\n please type your topic 2 \n(send divided information, and type 'ok' to exit topic2)"
     if(arg=="topic3"):
         os.environ[cli_id+"_mode2"] = "topic3"
         return "Setting topic 3\n please type your topic 3 \n(send divided information, and type 'ok' to exit topic2)"
+    elif(re.match(r"^[Ee]{1}xport\s*$"),arg):
+        reply=upload_data(tomd(data),ext="md")
+        if(reply=="error"):
+            return "Upload error, maybe you upload too many times on the same content"
+        return "Click the link to reach the file: "+reply
     return
 def python_exec(command):
     try:
