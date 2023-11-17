@@ -151,9 +151,9 @@ def tomd(datain):
     out=""
     out+="# "+datain['topic1']+"\n"
     for i,v in enumerate(datain['topic2']):
-        out+=str(i+1)+". "+str(v)
+        out+=str(i+1)+". "+str(v)+"\n"
     for i,v in enumerate(datain['topic3']):
-        out+="### "+datain['topic3'][v]
+        out+="### "+datain['topic3'][v]+"\n"
 
     return out
 def upload_data(inp,v=1,ext="pdf",name=""):
