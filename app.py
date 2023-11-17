@@ -125,7 +125,7 @@ def handle_message(event):
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
     except Exception as e:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred: '+e))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred: '+str(e)))
 
 @handler.add(PostbackEvent)
 def handle_message(event):
@@ -199,7 +199,7 @@ def python_exec(command):
     return str(output)
 
 def detect_exit(inp):
-    return(re.match(r"[Ee]{1}xit[\(\)]{0,1}[;]{0,1}",inp))
+    return(re.match(r"^[Ee]{1}xit[(\(\))]{0,1}[;]{0,1}$",inp))
 
 if __name__ == '__main__':
     app.run()
