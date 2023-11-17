@@ -155,8 +155,11 @@ def formpdf(cli_id,arg):
         os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic1 insertion"
     if(os.getenv(cli_id+"_mode2")=="topic2"):
+        if(detect_exit(arg)):
+            os.environ[cli_id+"_mode2"] = ""
         tmp=arg.split('\n')
         data['topic2']=data['topic2']+tmp
+        os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic2 insertion"
 
     
