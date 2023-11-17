@@ -187,7 +187,7 @@ def formpdf(cli_id,arg):
     if(arg=="topic2"):
         os.environ[cli_id+"_mode2"] = "topic2"
         return "Setting topic 2\n please type your topic 2 \n(send divided information, and type 'ok' to exit topic2)"
-    if(arg=="topic2"):
+    if(arg=="topic3"):
         os.environ[cli_id+"_mode2"] = "topic3"
         return "Setting topic 3\n please type your topic 3 \n(send divided information, and type 'ok' to exit topic2)"
     return
