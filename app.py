@@ -178,11 +178,12 @@ def formpdf(cli_id,arg):
         data['topic2']=data['topic2']+tmp
         os.environ[cli_id+"_data"]=json.dumps(data)
         return "complete topic2 insertion, if complete insertion, type 'ok'"
+    
     if(os.getenv(cli_id+"_mode2")=="topic3"):
         if(os.getenv(cli_id+"_mode3")=="del"):
             t1=arg.split(',')
             t1=[int(ele) for ele in t1]
-            data['topic3']=rmv(data['topic3'],t1)
+            data['topic3']=rmv2(data['topic3'],t1)
             os.environ[cli_id+"_mode3"] = ""
             os.environ[cli_id+"_data"]=json.dumps(data)
             return "success!"
@@ -204,7 +205,7 @@ def formpdf(cli_id,arg):
             tmp2[tmp3[0]]=tmp3[2]
         data['topic3'].update(tmp2)
         os.environ[cli_id+"_data"]=json.dumps(data)
-        return "complete topic2 insertion, if complete insertion, type 'ok'"
+        return "complete topic3 insertion, if complete insertion, type 'ok'"
 
     
     if(detect_exit(arg)):
