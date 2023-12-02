@@ -1,0 +1,5 @@
+mode:
+    ["formpdf"]
+        ["basic"]
+            ["name","email","phone","address"]
+        []

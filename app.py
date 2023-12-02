@@ -4,15 +4,19 @@ from flask import request
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
-import os
 
 import requests
 from io import BytesIO
 import re
 import json
 from datetime import datetime
+import os
 
 #from module import pdfgen
+from env import getenv
+from pdfcompose.create_md import tomd
+from pdfcompose import template,form
+from help.help import help,help_mode
 
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
@@ -21,56 +25,6 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 # Channel Secret
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 
-@app.route('/testupl',methods=['GET'])
-def testupl():
-    sendcm_first_url="https://send.cm/upload"
-    sendcm_first_response=requests.get(sendcm_first_url)
-    if(sendcm_first_response.status_code==200):
-        t1=sendcm_first_response.text
-        pattern = r'https://[^/]+.send.cm/cgi-bin/upload.cgi\?[^\s]+(?=\")'
-        upload_location=re.search(pattern,t1).group(0)
-        #print(upload_location)
-    else:
-        print("Get upload location failed with status code [{sendcm_first_response.status_code}]")
-
-    upl_form_data={
-        "utype":"anon",
-        "file_expire_unit":"DAY",
-        "keepalive":1
-    }
-
-    response=requests.post(upload_location,data=upl_form_data,files={'file_0':open("test.txt",'rb')})
-    #print(response.status_code)
-    #print(response.text)
-
-    file_id=json.loads(response.text)[0]['file_code']
-    if(file_id=="undef"):
-        print("Failed to upload file, remote banned")
-        return "Upload failed..."
-
-    sendcm_getlink_url="https://send.cm/?op=upload_result&st=OK&fn="+file_id
-    t1=requests.get(sendcm_getlink_url).text
-    dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
-    return dl_link
-
-@app.route('/testenv',methods=['GET'])
-def testenv():
-    # 设置环境变量
-    os.environ["TEST_ENV"] = "FDSFJHDSJKFHJDSFHJS"
-
-    # 读取一个特定的环境变量
-    env_variable_value = os.getenv("TEST_ENV")
-
-    # 如果环境变量不存在，你可以提供一个默认值
-    env_variable_value = os.getenv("TEST_ENV", "DEFAULT_VALUE")
-
-    return env_variable_value
-
-@app.route('/helloname', methods=['GET'])
-def helloname():
-    if request.method == 'GET': 
-        return 'Hello ' + request.values['username'] 
-    
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -90,44 +44,52 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    python_trigger=['python','Python','Py','py']
+    uid=event.source.user_id
+    mode=getenv.get_mode(uid)
     try:
-        if(os.getenv(event.source.user_id+"_mode")=="formpdf"):
-            t1=formpdf(event.source.user_id,msg)
+        #Basic Operation, including go back, help and end mode
+        if(detect_exit(msg)): #exit mode
+            getenv.set_mode(uid,[])
+            return "mode ended"
+        if(detect_back(msg)): #back to last mode
+            if(len(mode)==1):
+                t1="No specified step in "+mode[0]+", type 'Exit' to exit the mode"
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+                return
+            mode=mode.pop()
+            getenv.set_mode(uid,mode)
+            if(len(mode)==1):
+                t1="No specified step in "+mode[0]+", type 'Exit' to exit the mode"
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+                return
+            t1="You are at "+str(mode[-1])+" step of "+str(mode[0])+"."
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
-        elif os.getenv(event.source.user_id+"_mode") in python_trigger:
-            if(detect_exit(msg)):
-                line_bot_api.reply_message(event.reply_token, TextSendMessage("Exit Python command section"))
-                os.environ[event.source.user_id+"_mode"] = ""
-                return
-            t1=python_exec(msg)
+        if(re.match(r"^(-){,2}[hH]{1}elp\s*$",msg)): #show help message of the mode
+            t1=help_mode(mode)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        answer = '"'+msg+'", received!'
-        #print(answer)
-        if(re.match(r"(-){,2}[hH]{1}elp\s*",msg)):
-            t1=open("help/helpmain.txt",'r').read()
+            return
+        
+        #When receiving message when mode is formpdf
+        if(mode[0]=="formpdf"):
+            t1=formpdf(uid,msg)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(msg=="upload test"):
-            t1=testupl()
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(msg=="test env"):
-            t1=testenv()
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(msg=="user"):
-            t1 = event.source.user_id
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif(re.match(r"^[Ff]{1}orm(\s)*(pdf|PDF)$",msg)):
-            t1=open("pdfcompose/mainmsg.txt",'r').read()
-            os.environ[event.source.user_id+"_mode"] = "formpdf"
-            os.environ[event.source.user_id+"_data"] = json.dumps({"topic1":"","topic2":[],"topic3": {}})
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-        elif msg in python_trigger:
-            t1="Entering Python coding mode\r\nYou can send Python script to the API to debug"
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-            os.environ[event.source.user_id+"_mode"] = "python"
+            return
         else:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(answer))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Unknown command"))
+        
+        #Mode entrance, receiving message to enter the mode
+        if(re.match(r"^[Ff]{1}orm(\s)*(pdf|PDF)$",msg)):
+            mode[0]="formpdf"
+            getenv.set_mode(uid,mode)
+            t1=help_mode(mode)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+            return
+        
+        #Others, if user type other commands when no mode specified
+        t1="You type: "+msg+".\n\n"
+        t1+=help()
+        return
     except Exception as e:
         line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred: '+str(e)))
 
@@ -140,23 +102,14 @@ def welcome(event):
     gid = event.source.group_id
     profile = line_bot_api.get_group_member_profile(gid, uid)
     name = profile.display_name
-    message = TextSendMessage(text=f'{name}歡迎加入')
+    message = TextSendMessage(text=f'{name}, welcome to the Line server')
     line_bot_api.reply_message(event.reply_token, message)
 
 @app.route('/')
 def hello():
     return 'Hello, World!'
 
-def tomd(datain):
-    out=""
-    out+="# "+datain['topic1']+"\n"
-    out+="---\n"
-    for i,v in enumerate(datain['topic2']):
-        out+=str(i+1)+". "+str(v)+"\n"
-    for i,v in enumerate(datain['topic3']):
-        out+="### "+str(v)+": "+datain['topic3'][v]+"\n"
 
-    return out
 def upload_data(inp,v=1,ext="pdf",name=""):
     inp=str(inp)
     sendcm_first_url="https://send.cm/upload"
@@ -195,88 +148,36 @@ def upload_data(inp,v=1,ext="pdf",name=""):
     dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
     return dl_link  
 
-def settxtdata(cli_id,title,information):
+def settxtdata(uid,title,information):
     return
-def formpdf(cli_id,arg):
-    data=json.loads(os.getenv(cli_id+"_data"))
-    if(os.getenv(cli_id+"_mode2")=="topic1"):
-        data['topic1']=arg
-        os.environ[cli_id+"_mode2"] = ""
-        os.environ[cli_id+"_data"]=json.dumps(data)
-        return "complete topic1 insertion"
-    if(os.getenv(cli_id+"_mode2")=="topic2"):
-        if(os.getenv(cli_id+"_mode3")=="del"):
-            t1=arg.split(',')
-            t1=[int(ele) for ele in t1]
-            data['topic2']=rmv(data['topic2'],t1)
-            os.environ[cli_id+"_mode3"] = ""
-            os.environ[cli_id+"_data"]=json.dumps(data)
-            return "success!"
+def formpdf(uid,arg):
+    mode=getenv.get_mode(uid)
+    data=getenv.get_data(uid)
 
-        if(arg=="ok"):
-            os.environ[cli_id+"_mode2"] = ""
-            return "exit topic2 insertion"
-        elif(arg=="del"):
-            out="Please type the number to del that column :\n"
-            out+="to delete multiple data, type ',' between numbers\n"
-            for i,v in enumerate(data['topic2']):
-                out+=str(i)+": "+v+"\n"
-            os.environ[cli_id+"_mode3"] = "del"
-            return out
-        
-        tmp=arg.split('\n')
-        data['topic2']=data['topic2']+tmp
-        os.environ[cli_id+"_data"]=json.dumps(data)
-        return "complete topic2 insertion, if complete insertion, type 'ok'"
+    # when not specified step
+    if(len(mode)==1):
+        if(arg=="dump"):
+            return json.dumps(data)
+        elif(re.match(r"^[Ee]{1}xport\s*$",arg)):
+            reply=upload_data(tomd(data),ext="md")
+            if(reply=="error"):
+                return "Upload error, maybe you upload too many times on the same content"
+            return "Click the link to reach the file: "+reply
+        if arg in ["Basic","B"]:
+            mode=[mode[0],"basic"]
+            getenv.set_mode(mode)
+            return help_mode(mode)
     
-    if(os.getenv(cli_id+"_mode2")=="topic3"):
-        if(os.getenv(cli_id+"_mode3")=="del"):
-            t1=arg.split(',')
-            t1=[int(ele) for ele in t1]
-            data['topic3']=rmv2(data['topic3'],t1)
-            os.environ[cli_id+"_mode3"] = ""
-            os.environ[cli_id+"_data"]=json.dumps(data)
-            return "success!"
+    # when specified step
+    t1=form.detail(mode,data,arg)
+    if(t1["success"]):
+        ret="Operation successful"
+        data=t1["data"]
+    else:
+        ret="Error: \n"+t1["error"]
+    getenv.set_data(uid,data)
+    return ret
 
-        if(arg=="ok"):
-            os.environ[cli_id+"_mode2"] = ""
-            return "exit topic3 insertion"
-        elif(arg=="del"):
-            out="Please type the number to del that column :\n"
-            out+="to delete multiple data, type ',' between numbers\n"
-            for i,v in enumerate(data['topic3']):
-                out+=str(i)+": "+v+": "+data['topic3'][v]+"\n"
-            os.environ[cli_id+"_mode3"] = "del"
-            return out
-        tmp=arg.split('\n')
-        tmp2={}
-        for con in tmp:
-            tmp3=re.split(r":(\s)*",con,1)
-            tmp2[tmp3[0]]=tmp3[2]
-        data['topic3'].update(tmp2)
-        os.environ[cli_id+"_data"]=json.dumps(data)
-        return "complete topic3 insertion, if complete insertion, type 'ok'"
-
-    
-    if(detect_exit(arg)):
-        os.environ[cli_id+"_mode"] = ""
-        return "mode ended"
-    if(arg=="dump"):
-        return json.dumps(data)
-    if(arg=="topic1"):
-        os.environ[cli_id+"_mode2"] = "topic1"
-        return "Setting topic 1\n please type your topic 1 (exit topic1 after input)"
-    if(arg=="topic2"):
-        os.environ[cli_id+"_mode2"] = "topic2"
-        return "Setting topic 2\n please type your topic 2 \n(send divided information, and type 'ok' to exit topic2)"
-    if(arg=="topic3"):
-        os.environ[cli_id+"_mode2"] = "topic3"
-        return "Setting topic 3\n please type your topic 3 \n(send divided information, and type 'ok' to exit topic2)"
-    elif(re.match(r"^[Ee]{1}xport\s*$",arg)):
-        reply=upload_data(tomd(data),ext="md")
-        if(reply=="error"):
-            return "Upload error, maybe you upload too many times on the same content"
-        return "Click the link to reach the file: "+reply
     return
 def python_exec(command):
     try:
@@ -301,6 +202,9 @@ def rmv2(inp,ele):
 
 def detect_exit(inp):
     return(re.match(r"^[Ee]{1}xit[(\(\))]{0,1}[;]{0,1}$",inp))
+
+def detect_back(inp):
+    return(re.match(r"^[Bb]{1}ack[(\(\))]{0,1}[;]{0,1}$",inp))
 
 if __name__ == '__main__':
     app.run()
