@@ -93,8 +93,6 @@ def check_exist(data:list,inp:list):
     find=0
     try:
         for n1,d1 in enumerate(data):
-            if(n1==len(data)-1):
-                break
             find1=1
             for n2,d2 in enumerate(inp):
                 if(data[n1+n2]!=inp[n2]):

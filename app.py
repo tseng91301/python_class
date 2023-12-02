@@ -51,7 +51,8 @@ def handle_message(event):
         #Basic Operation, including go back, help and end mode
         if(detect_exit(msg)): #exit mode
             getenv.set_mode(uid,[])
-            return "mode ended"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("mode ended"))
+            return
         if(detect_back(msg)): #back to last mode
             if(len(mode)==1):
                 t1="No specified step in "+mode[0]+", type 'Exit' to exit the mode"
