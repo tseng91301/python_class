@@ -64,7 +64,12 @@ def handle_message(event):
                 t1="No specified step in "+mode[0]+", type 'Exit' to exit the mode"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
                 return
-            t1="You are at "+str(mode[-1])+" step of "+str(mode[0])+"."
+            t1="You are at "
+            for n,v in enumerate(mode):
+                if(n!=0):
+                    t1+=" -> "
+                t1+=v
+            t1+=" ."
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
         if(detect_help(msg)): #show help message of the mode

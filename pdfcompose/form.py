@@ -50,8 +50,10 @@ def detail(mode:list,data,arg:str):
                     ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
             elif(check_exist(mode,["del"])):
                 try:
-                    ins_data=int(arg.split(","))
-                    print(ins_data)
+                    ins_data2=arg.split(",")
+                    ins_data=list()
+                    for v in ins_data2:
+                        ins_data.append(int(v))
                     data["education"]["info"]=rmv(data["education"]["info"],ins_data)
                     data["education"]["num"]-=len(ins_data)
                 except:
