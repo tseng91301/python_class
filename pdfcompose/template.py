@@ -6,7 +6,16 @@ def data_i():
             "phone":"",
             "address":""
         },
-        "education":[],
-        "work_exp":[],
-        "add_exp":{}
+        "education":{
+            "num":0,
+            "info":[]
+        },
+        "work_exp":{
+            "num":0,
+            "info":[]
+        },
+        "add_exp":{
+            "num":0,
+            "info":[]
+        }
     }

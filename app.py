@@ -174,6 +174,10 @@ def formpdf(uid,arg):
             mode=[mode[0],"basic"]
             getenv.set_mode(uid,mode)
             return help_mode(mode)
+        if arg in ["Education","Edu"]:
+            mode=[mode[0],"education"]
+            getenv.set_mode(uid,mode)
+            return help_mode(mode)
         
         return "Unknown command '"+arg+"' !"
     
@@ -192,13 +196,6 @@ def formpdf(uid,arg):
     getenv.set_data(uid,data)
     return ret
 
-def python_exec(command):
-    try:
-        output=exec(command)
-    except Exception as e:
-        output=str(e)
-    return str(output)
-
 def rmv(inp,ele):
     tmpa=[]
     for i,v in enumerate(inp):
@@ -211,6 +208,25 @@ def rmv2(inp,ele):
         if i not in ele:
             tmpa.update({v:inp[v]})
     return tmpa
+
+def check_exist(data:list,inp:list):
+    find=0
+    try:
+        for n1,d1 in enumerate(data):
+            if(n1==len(data)-1):
+                break
+            find1=1
+            for n2,d2 in enumerate(inp):
+                if(data[n1+n2]!=inp[n2]):
+                    find1=0
+                    break
+            if(find1):
+                find=1
+                break
+    except:
+        find=0
+    return bool(find)
+
 
 
 def detect_exit(inp):

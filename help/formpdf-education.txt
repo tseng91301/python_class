@@ -1,0 +1,7 @@
+In the education section of mode formpdf
+You can input your Education and Academic Background in this section
+
+you can send these four messages:
+    1. Add ('+'): add one degree you or background you have.
+    2. Del: delete one degree in the system record.
+        You may send the number you want to delete in next message
