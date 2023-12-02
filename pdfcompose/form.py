@@ -2,6 +2,7 @@ import re
 def detail(mode:list,data,arg):
     ret={}
     try:
+        ret["msg"]=""
         if(mode[-1]=="name" and mode[-2]=="basic"):
             data["basic"]["name"]=arg
         if(mode[-1]=="email" and mode[-2]=="basic"):
@@ -15,7 +16,7 @@ def detail(mode:list,data,arg):
             ret["msg"]="Please enter your "+arg+"."
         ret["success"]=1
         ret["data"]=data
-        ret["msg"]=""
+        ret["mode"]=mode
     except Exception as e:
         ret["success"]=0
         ret["error"]=str(e)
