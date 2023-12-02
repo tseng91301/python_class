@@ -185,6 +185,7 @@ def formpdf(uid,arg):
             ret=t1["msg"]
         else:
             ret="Operation successful"
+        mode=t1["mode"]
         data=t1["data"]
     else:
         ret="Error: \n"+t1["error"]
