@@ -90,6 +90,7 @@ def handle_message(event):
         #Others, if user type other commands when no mode specified
         t1="You type: "+msg+".\n\n"
         t1+=help()
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
         return
     except Exception as e:
         line_bot_api.reply_message(event.reply_token, TextSendMessage('An error occurred: '+str(e)))
