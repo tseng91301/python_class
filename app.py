@@ -73,7 +73,8 @@ def handle_message(event):
         
         #When receiving message when mode is formpdf
         try:
-            if(mode[0]=="formpdf"):
+            print(mode[0])
+            if(str(mode[0])=="formpdf"):
                 t1=formpdf(uid,msg)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
                 return
