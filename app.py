@@ -81,7 +81,8 @@ def handle_message(event):
         
         #Mode entrance, receiving message to enter the mode
         if(re.match(r"^[Ff]{1}orm(\s)*(pdf|PDF)$",msg)):
-            mode[0]="formpdf"
+            mode=["formpdf"]
+            
             getenv.set_mode(uid,mode)
             t1=help_mode(mode)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
