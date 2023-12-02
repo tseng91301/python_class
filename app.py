@@ -57,7 +57,7 @@ def handle_message(event):
                 t1="No specified step in "+mode[0]+", type 'Exit' to exit the mode"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
                 return
-            mode=mode.pop()
+            mode.pop()
             getenv.set_mode(uid,mode)
             if(len(mode)==1):
                 t1="No specified step in "+mode[0]+", type 'Exit' to exit the mode"
