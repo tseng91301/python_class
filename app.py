@@ -171,7 +171,7 @@ def formpdf(uid,arg):
             if(reply=="error"):
                 return "Upload error, maybe you upload too many times on the same content"
             return "Click the link to reach the file: "+reply
-        if arg in ["Basic","B"]:
+        if arg in ["Basic","B","basic"]:
             mode=[mode[0],"basic"]
             getenv.set_mode(uid,mode)
             return help_mode(mode)
@@ -189,6 +189,7 @@ def formpdf(uid,arg):
         data=t1["data"]
     else:
         ret="Error: \n"+t1["error"]
+    getenv.set_mode(uid,mode)
     getenv.set_data(uid,data)
     return ret
 
