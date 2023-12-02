@@ -47,6 +47,7 @@ def handle_message(event):
     uid=event.source.user_id
     mode=getenv.get_mode(uid)
     try:
+        print(str(mode))
         #Basic Operation, including go back, help and end mode
         if(detect_exit(msg)): #exit mode
             getenv.set_mode(uid,[])
