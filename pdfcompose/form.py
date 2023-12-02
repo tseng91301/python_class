@@ -39,15 +39,21 @@ def detail(mode:list,data,arg:str):
                     for n,v in enumerate(ins_data):
                         ins_data[n]=v.strip()
                     data["education"]["info"].append({}) #add one space
+                except:
+                    ret["msg"]="Internal server error, thanks for your patience to let us fix it."
+                try:
                     data["education"]["info"][data["education"]["num"]]["un"]=ins_data[0] #University name, College name
                     data["education"]["info"][data["education"]["num"]]["dn"]=ins_data[1] #Degree name
                     data["education"]["info"][data["education"]["num"]]["ka"]=ins_data[2] #Key achievements
                     data["education"]["info"][data["education"]["num"]]["cc"]=ins_data[3] #University city and country
                     data["education"]["info"][data["education"]["num"]]["gmy"]=ins_data[4] #Graduation month and year
-                    data["education"]["num"]+=1
-                    goback=1
                 except:
                     ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
+                    data["education"]["info"].pop()
+                finally:
+                    data["education"]["num"]+=1
+                    goback=1
+
             elif(check_exist(mode,["del"])):
                 try:
                     ins_data2=arg.split(",")
