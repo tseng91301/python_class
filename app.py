@@ -156,7 +156,12 @@ def settxtdata(uid,title,information):
     return
 def formpdf(uid,arg):
     mode=getenv.get_mode(uid)
-    data=getenv.get_data(uid)
+    try:
+        data=getenv.get_data(uid)
+    except Exception as e:
+        print("At data=getenv.get_data(uid), "+str(e))
+        data=dict()
+    
 
     # when not specified step
     if(len(mode)==1):
@@ -183,7 +188,6 @@ def formpdf(uid,arg):
     getenv.set_data(uid,data)
     return ret
 
-    return
 def python_exec(command):
     try:
         output=exec(command)
