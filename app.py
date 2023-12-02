@@ -160,9 +160,8 @@ def formpdf(uid,arg):
         data=getenv.get_data(uid)
     except Exception as e:
         print("At data=getenv.get_data(uid), "+str(e))
-        data=dict()
+        data=template.data_i()
     
-
     # when not specified step
     if(len(mode)==1):
         if(arg=="dump"):
@@ -182,7 +181,10 @@ def formpdf(uid,arg):
     # when specified step
     t1=form.detail(mode,data,arg)
     if(t1["success"]):
-        ret="Operation successful"
+        if(t1["msg"]!=""):
+            ret=t1["msg"]
+        else:
+            ret="Operation successful"
         data=t1["data"]
     else:
         ret="Error: \n"+t1["error"]
