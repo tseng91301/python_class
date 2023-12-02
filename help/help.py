@@ -13,16 +13,16 @@ def help_mode(mode,startl=1,endl=1):
     helpinfo=""
     try:
         for n,v in enumerate(mode):
-            if(n!=0):
-                helpinfo+="-"
             if(n<startl):
-                helpinfo+=v
+                if(n!=0):
+                    helpinfo+="-"
+                helpinfo+=str(v)
         helpinfo+="-"
         for n,v in enumerate(reversed(mode)):
-            if(n!=0):
-                helpinfo+="-"
             if(n<endl):
-                helpinfo+=v
+                if(n!=0):
+                    helpinfo+="-"
+                helpinfo+=str(v)
     except Exception as e:
         print(str(e))
     t1=help(helpinfo)

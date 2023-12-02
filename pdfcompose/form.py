@@ -29,7 +29,7 @@ def detail(mode:list,data,arg:str):
                 mode.append(arg.lower())
                 ret["msg"]="Please enter your "+arg+"."
             else:
-                ret["msg"]="Unknown command '"+arg+"' !"
+                ret["msg"]="Unknown command in basic '"+arg+"' !"
 
         # The function used in education section
         elif(check_exist(mode,["education"])):
@@ -72,7 +72,7 @@ def detail(mode:list,data,arg:str):
                     t1+="   Graduation month and year: "+str(v["gmy"])+"\n"
                 ret["msg"]=t1
         else:
-            ret["msg"]="Unknown command '"+arg+"' !"
+            ret["msg"]="Unknown command in education '"+arg+"' !"
         if(inp_f):
             ret["msg"]="Finish basic -> "+mode[-1]+" input, auto change into basic section."
 
