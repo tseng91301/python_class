@@ -77,7 +77,7 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
                 return
         except Exception as e:
-            print(str(e))
+            print('at if(mode[0]=="formpdf"): , '+str(e))
         
         #Mode entrance, receiving message to enter the mode
         if(re.match(r"^[Ff]{1}orm(\s)*(pdf|PDF)$",msg)):

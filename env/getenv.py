@@ -19,7 +19,7 @@ def get_mode(uid):
         out.append(mode1["mode"])
         out.extend(mode1["mode_detail"])
     except Exception as e:
-        print(str(e))
+        print("At get_mode, "+str(e))
     return out
 
 def set_mode(uid,data:dict):
@@ -34,7 +34,7 @@ def set_mode(uid,data:dict):
             if(i>0):
                 mode1["mode_detail"].append(val)
     except Exception as e:
-        print(str(e))
+        print("at set_mode, "+str(e))
     envjson_p(uid+"_mode",mode1)
     return
 
