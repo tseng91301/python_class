@@ -174,9 +174,10 @@ def formpdf(uid,arg):
             return "Click the link to reach the file: "+reply
         if arg in ["Basic","B"]:
             mode=[mode[0],"basic"]
-            getenv.set_mode(mode)
+            getenv.set_mode(uid,mode)
             return help_mode(mode)
-        return "Unknown command!"
+        
+        return "Unknown command '"+arg+"' !"
     
     # when specified step
     t1=form.detail(mode,data,arg)
