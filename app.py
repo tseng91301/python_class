@@ -71,12 +71,13 @@ def handle_message(event):
             return
         
         #When receiving message when mode is formpdf
-        if(mode[0]=="formpdf"):
-            t1=formpdf(uid,msg)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
-            return
-        else:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage("Unknown command"))
+        try:
+            if(mode[0]=="formpdf"):
+                t1=formpdf(uid,msg)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
+                return
+        except Exception as e:
+            print(str(e))
         
         #Mode entrance, receiving message to enter the mode
         if(re.match(r"^[Ff]{1}orm(\s)*(pdf|PDF)$",msg)):
@@ -167,6 +168,7 @@ def formpdf(uid,arg):
             mode=[mode[0],"basic"]
             getenv.set_mode(mode)
             return help_mode(mode)
+        return "Unknown command!"
     
     # when specified step
     t1=form.detail(mode,data,arg)
