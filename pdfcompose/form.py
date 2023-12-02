@@ -47,12 +47,11 @@ def detail(mode:list,data,arg:str):
                     data["education"]["info"][data["education"]["num"]]["ka"]=ins_data[2] #Key achievements
                     data["education"]["info"][data["education"]["num"]]["cc"]=ins_data[3] #University city and country
                     data["education"]["info"][data["education"]["num"]]["gmy"]=ins_data[4] #Graduation month and year
+                    data["education"]["num"]+=1
+                    goback=1
                 except:
                     ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
                     data["education"]["info"].pop()
-                finally:
-                    data["education"]["num"]+=1
-                    goback=1
 
             elif(check_exist(mode,["del"])):
                 try:
