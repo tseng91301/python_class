@@ -3,11 +3,8 @@ You are now entering the mode of pdf auto compose.
 The functions are showed below:
 Type the function name to execute the function :-)
 
-topic1: write the information of topic 1
-topic2: write the information of topic 2
-topic3: write the information of topic 3
-topic4: write the information of topic 4
-finish: finish the information collection and generate desired pdf file
+Basic (B,basic): input the basic information
+Export: finish the information collection and generate desired pdf file
 exit: exit the mode without saving the information you provided
 cfg download: download the configuration file, containing the information you give
 cfg use: use the configuration file you downloaded previously (strongly recommend to do it at first)

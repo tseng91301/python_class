@@ -66,14 +66,13 @@ def handle_message(event):
             t1="You are at "+str(mode[-1])+" step of "+str(mode[0])+"."
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
-        if(re.match(r"^(-){,2}[hH]{1}elp\s*$",msg)): #show help message of the mode
+        if(detect_help(msg)): #show help message of the mode
             t1=help_mode(mode)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
         
         #When receiving message when mode is formpdf
         try:
-            print(mode[0])
             if(str(mode[0])=="formpdf"):
                 t1=formpdf(uid,msg)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
@@ -215,10 +214,13 @@ def rmv2(inp,ele):
 
 
 def detect_exit(inp):
-    return(re.match(r"^[Ee]{1}xit[(\(\))]{0,1}[;]{0,1}$",inp))
+    return(bool(re.match(r"^[Ee]{1}xit[(\(\))]{0,1}[;]{0,1}$",inp)))
 
 def detect_back(inp):
-    return(re.match(r"^[Bb]{1}ack[(\(\))]{0,1}[;]{0,1}$",inp))
+    return(bool(re.match(r"^([Bb]{1}ack[(\(\))]{0,1}[;]{0,1})|(-[Bb]{1}\s*)|(-)$",inp)))
+
+def detect_help(inp):
+    return(bool(re.match(r"^(-){,2}[hH]{1}(elp){0,1}\s*$",inp)))
 
 if __name__ == '__main__':
     app.run()
