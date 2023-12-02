@@ -45,9 +45,9 @@ def detail(mode:list,data,arg:str):
                     data["education"]["info"][data["education"]["num"]]["cc"]=ins_data[3] #University city and country
                     data["education"]["info"][data["education"]["num"]]["gmy"]=ins_data[4] #Graduation month and year
                     data["education"]["num"]+=1
-                except:
-                    ret["msg"]="Failed to record, please make sure you insert the right way."
                     goback=1
+                except:
+                    ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
             elif(check_exist(mode,["del"])):
                 try:
                     ins_data=int(arg.split(","))
@@ -60,7 +60,7 @@ def detail(mode:list,data,arg:str):
             elif arg in ["Add","+"]:
                 mode.append("add")
                 ret["help"]=1
-            elif arg in ["del"]:
+            elif arg in ["Del"]:
                 mode.append("del")
                 t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
                 for n,v in enumerate(data["education"]["info"]):
@@ -71,8 +71,10 @@ def detail(mode:list,data,arg:str):
                     t1+="   University city and country: "+str(v["cc"])+"\n"
                     t1+="   Graduation month and year: "+str(v["gmy"])+"\n"
                 ret["msg"]=t1
+            else:
+                ret["msg"]="Unknown command in basic -> education '"+arg+"' !"
         else:
-            ret["msg"]="Unknown command in education '"+arg+"' !"
+            ret["msg"]="Unknown command in basic '"+arg+"' !"
         if(inp_f):
             ret["msg"]="Finish basic -> "+mode[-1]+" input, auto change into basic section."
 
