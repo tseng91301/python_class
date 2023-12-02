@@ -13,7 +13,7 @@ def envjson_p(name:str,val:dict):
 
 #get user current mode
 def get_mode(uid):
-    out=[]
+    out=list()
     try:
         mode1=envjson_d(uid+"_mode")
         out.append(mode1["mode"])
