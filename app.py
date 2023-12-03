@@ -184,6 +184,14 @@ def formpdf(uid,arg):
             mode=[mode[0],"education"]
             getenv.set_mode(uid,mode)
             return help_mode(mode)
+        if arg in ["Professional","Professional experience","Prof"]:
+            mode=[mode[0],"professional"]
+            getenv.set_mode(uid,mode)
+            return help_mode(mode)
+        if arg in ["Additional","Plus"]:
+            mode=[mode[0],"additional"]
+            getenv.set_mode(uid,mode)
+            return help_mode(mode)
         
         return "Unknown command '"+arg+"' !"
     

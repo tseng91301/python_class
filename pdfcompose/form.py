@@ -80,8 +80,113 @@ def detail(mode:list,data,arg:str):
                 ret["msg"]=t1
             else:
                 ret["msg"]="Unknown command in basic -> education '"+arg+"' !"
+        
+        # The function used in professional section
+        elif(check_exist(mode,["professional"])):
+            if(check_exist(mode,["add"])):
+                try:
+                    ins_data=arg.split("\n")
+                    for n,v in enumerate(ins_data):
+                        ins_data[n]=v.strip()
+                    data["professional"]["info"].append({}) #add one space
+                except:
+                    ret["msg"]="Internal server error, thanks for your patience to let us fix it."
+                try:
+                    data["professional"]["info"][data["professional"]["num"]]["on"]=ins_data[0] #Organization name
+                    data["professional"]["info"][data["professional"]["num"]]["p"]=ins_data[1] #Position
+                    data["professional"]["info"][data["professional"]["num"]]["ka"]=ins_data[2] #Key achievements
+                    data["professional"]["info"][data["professional"]["num"]]["cc"]=ins_data[3] #Work city and country
+                    data["professional"]["info"][data["professional"]["num"]]["gmy"]=ins_data[4] # Employment period (Start month, year – End month, year)
+                    data["professional"]["num"]+=1
+                    goback=1
+                except:
+                    ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
+                    data["professional"]["info"].pop()
+
+            elif(check_exist(mode,["del"])):
+                try:
+                    ins_data2=arg.split(",")
+                    ins_data=list()
+                    for v in ins_data2:
+                        ins_data.append(int(v))
+                    data["professional"]["info"]=rmv(data["professional"]["info"],ins_data)
+                    data["professional"]["num"]-=len(ins_data)
+                except:
+                    ret["msg"]="Failed to delete, please make sure you insert the right way."
+                goback=1
+            elif arg in ["Add","+"]:
+                mode.append("add")
+                ret["help"]=1
+            elif arg in ["Del"]:
+                mode.append("del")
+                t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
+                for n,v in enumerate(data["professional"]["info"]):
+                    t1+=str(n)+":\n"
+                    t1+="   Organization name: "+str(v["on"])+"\n"
+                    t1+="   Position: "+str(v["p"])+"\n"
+                    t1+="   Key achievements: "+str(v["ka"])+"\n"
+                    t1+="   city and country: "+str(v["cc"])+"\n"
+                    t1+="   Employment period: "+str(v["gmy"])+"\n"
+                ret["msg"]=t1
+            else:
+                ret["msg"]="Unknown command in basic -> professional '"+arg+"' !"
+
+        # The function used in professional section
+        elif(check_exist(mode,["additional"])):
+            if(check_exist(mode,["add"])):
+                try:
+                    ins_data=arg.split("\n")
+                    title=ins_data[0].strip()
+                    d1={}
+                    d1["t"]=title
+                    for n,v in enumerate(ins_data):
+                        if(n!=0):
+                            l1=ins_data[n].split(":")
+                            try:
+                                d1[l1[0].strip()]=l1[1].strip()
+                            except:
+                                continue
+                        ins_data[n]=v.strip()
+                    data["additional"]["info"].append(d1) #add one space
+                    data["additional"]["num"]+=1
+                    goback=1
+                except:
+                    ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
+                    data["additional"]["info"].pop()
+
+            elif(check_exist(mode,["del"])):
+                try:
+                    ins_data2=arg.split(",")
+                    ins_data=list()
+                    for v in ins_data2:
+                        ins_data.append(int(v))
+                    data["professional"]["info"]=rmv(data["professional"]["info"],ins_data)
+                    data["professional"]["num"]-=len(ins_data)
+                except:
+                    ret["msg"]="Failed to delete, please make sure you insert the right way."
+                goback=1
+            elif arg in ["Add","+"]:
+                mode.append("add")
+                ret["help"]=1
+            elif arg in ["Del"]:
+                mode.append("del")
+                t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
+                for n,v in enumerate(data["professional"]["info"]):
+                    t1+=str(n)+":\n"
+                    t1+="   Organization name: "+str(v["on"])+"\n"
+                    t1+="   Position: "+str(v["p"])+"\n"
+                    t1+="   Key achievements: "+str(v["ka"])+"\n"
+                    t1+="   city and country: "+str(v["cc"])+"\n"
+                    t1+="   Employment period: "+str(v["gmy"])+"\n"
+                ret["msg"]=t1
+            else:
+                ret["msg"]="Unknown command in basic -> professional '"+arg+"' !"
+        
+        # The function when other situation
         else:
             ret["msg"]="Unknown command in basic '"+arg+"' !"
+        
+        # The function when complete insertion
         if(inp_f):
             ret["msg"]="Finish basic -> "+mode[-1]+" input, auto change into basic section."
 
@@ -93,6 +198,7 @@ def detail(mode:list,data,arg:str):
         ret["success"]=1
         ret["data"]=data
         ret["mode"]=mode
+
     except Exception as e:
         ret["success"]=0
         ret["error"]=str(e)
