@@ -160,8 +160,8 @@ def detail(mode:list,data,arg:str):
                     ins_data=list()
                     for v in ins_data2:
                         ins_data.append(int(v))
-                    data["professional"]["info"]=rmv(data["professional"]["info"],ins_data)
-                    data["professional"]["num"]-=len(ins_data)
+                    data["additional"]["info"]=rmv(data["additional"]["info"],ins_data)
+                    data["additional"]["num"]-=len(ins_data)
                 except:
                     ret["msg"]="Failed to delete, please make sure you insert the right way."
                 goback=1
@@ -171,16 +171,15 @@ def detail(mode:list,data,arg:str):
             elif arg in ["Del"]:
                 mode.append("del")
                 t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
-                for n,v in enumerate(data["professional"]["info"]):
-                    t1+=str(n)+":\n"
-                    t1+="   Organization name: "+str(v["on"])+"\n"
-                    t1+="   Position: "+str(v["p"])+"\n"
-                    t1+="   Key achievements: "+str(v["ka"])+"\n"
-                    t1+="   city and country: "+str(v["cc"])+"\n"
-                    t1+="   Employment period: "+str(v["gmy"])+"\n"
+                for n,v in enumerate(data["additional"]["info"]):
+                    t1+=str(n)+"("+str(v["t"])+")"+":\n"
+                    for n2,v2 in enumerate(v):
+                        if(n2==0):
+                            continue
+                        t1+="   "+v2+": "+v[v2]+"\n"
                 ret["msg"]=t1
             else:
-                ret["msg"]="Unknown command in basic -> professional '"+arg+"' !"
+                ret["msg"]="Unknown command in basic -> additional '"+arg+"' !"
         
         # The function when other situation
         else:

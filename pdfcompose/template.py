@@ -10,11 +10,11 @@ def data_i():
             "num":0,
             "info":[]
         },
-        "work_exp":{
+        "professional":{
             "num":0,
             "info":[]
         },
-        "add_exp":{
+        "additional":{
             "num":0,
             "info":[]
         }
