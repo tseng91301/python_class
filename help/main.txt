@@ -1,9 +1,9 @@
 Line API functions:
-    1. form pdf: generate the pdf file by giving some text message
+    1. Form pdf: generate the pdf file by giving some text message
 Type the function name to go into the function
 
 The functions which could be used in every modes and sections:
-    1. Back (-B,-b): Go back to the previous step (System may tell you which mode and section you are in.).
+    1. Back (-B,-b): Go back to the previous step (System may tell you which mode and section you are in).
     2. Exit: Exit all modes and sections. (Alert, it would lose your current progress in some modes)
     3. Help (-H,-h): Show the help message in current mode and section.
 

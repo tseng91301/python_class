@@ -1,11 +1,16 @@
 Mode: auto compose pdf file
 You are now entering the mode of pdf auto compose.
 The functions are showed below:
-Type the function name to execute the function :-)
+Type the function name to execute the function
 
-Basic (B,basic): input the basic information
+Basic (B,basic): input your basic information
+Education (Edu): input your Education, Academic information(s)
+Professional (Professional experience, Prof): input your Professional experience(s)
+Leadership (Lead): Share your Leadership experience(s)
+Certification (Cert): Share your Certification information(s)
+Skill (Skills): Share your skill(s)
+Additional (Plus): Share your additional information(s)
 Export: finish the information collection and generate desired pdf file
-exit: exit the mode without saving the information you provided
-cfg download: download the configuration file, containing the information you give
-cfg use: use the configuration file you downloaded previously (strongly recommend to do it at first)
-cfg dump: output the current configuration
+Cfg download: download the configuration file, containing the information you give
+Cfg use: use the configuration file you downloaded previously (strongly recommend to do it at first)
+Cfg dump: output the current configuration

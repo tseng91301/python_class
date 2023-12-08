@@ -1,0 +1,11 @@
+To add things in education section:
+
+Please give 5 details in a message, split by divided lines.
+
+1. University or College name
+2. Degree name
+3. Key achievements
+4. University's city and country
+5. Graduation month and year
+
+If nothing specified in the subtitle, leave the relative line BLANK. 
