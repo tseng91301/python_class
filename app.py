@@ -175,7 +175,14 @@ def formpdf(uid,arg):
             except Exception as e:
                 return "System Error: \n"+str(e)
             try:
-                r1=upload_data(js_txt,ext="json",name=str(datetime.ctime))
+                r1=upload_data(js_txt,ext="json")
+                t1="Config file uploaded, copy the following link to download it.\n\n"
+                t1+=str(r1)
+                t1+="\nNotice: The file only stay on cloud FOR 15 DAYS!"
+            except Exception as e:
+                return "Upload failed "+str(e)
+        elif arg in ["Config use","Config download","Config-d"]:
+            return "abc"
             
         elif(re.match(r"^[Ee]{1}xport\s*$",arg)):
             reply=upload_data(tomd(data),ext="md")
