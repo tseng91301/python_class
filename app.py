@@ -157,8 +157,6 @@ def upload_data(inp,v=1,ext="pdf",name=""):
     dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
     return dl_link  
 
-def settxtdata(uid,title,information):
-    return
 def formpdf(uid,arg):
     mode=getenv.get_mode(uid)
     try:
@@ -215,7 +213,7 @@ def formpdf(uid,arg):
         if(t1["msg"]!=""):
             ret=t1["msg"]
         elif(t1["help"]):
-            ret=help_mode(mode)
+            ret=help_mode(mode,t1["help_back"])
         else:
             ret="Operation successful"
     else:

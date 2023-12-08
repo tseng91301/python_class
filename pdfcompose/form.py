@@ -268,6 +268,7 @@ def detail(mode:list,data,arg:str):
             elif arg in ["Add","+"]:
                 mode.append("add")
                 ret["help"]=1
+                ret["help_back"]=2
             elif arg in ["Del"]:
                 mode.append("del")
                 t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
