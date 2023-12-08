@@ -188,6 +188,18 @@ def formpdf(uid,arg):
             mode=[mode[0],"professional"]
             getenv.set_mode(uid,mode)
             return help_mode(mode)
+        if arg in ["Leadership","Lead"]:
+            mode=[mode[0],"leadership"]
+            getenv.set_mode(uid,mode)
+            return help_mode(mode)
+        if arg in ["Certification","Cert"]:
+            mode=[mode[0],"certification"]
+            getenv.set_mode(uid,mode)
+            return help_mode(mode)
+        if arg in ["Skill","Skills"]:
+            mode=[mode[0],"skill"]
+            getenv.set_mode(uid,mode)
+            return help_mode(mode)
         if arg in ["Additional","Plus"]:
             mode=[mode[0],"additional"]
             getenv.set_mode(uid,mode)
@@ -198,12 +210,14 @@ def formpdf(uid,arg):
     # when specified step
     t1=form.detail(mode,data,arg)
     if(t1["success"]):
-        if(t1["msg"]!=""):
-            ret=t1["msg"]
-        else:
-            ret="Operation successful"
         mode=t1["mode"]
         data=t1["data"]
+        if(t1["msg"]!=""):
+            ret=t1["msg"]
+        elif(t1["help"]):
+            ret=help_mode(mode)
+        else:
+            ret="Operation successful"
     else:
         ret="Error: \n"+t1["error"]
     getenv.set_mode(uid,mode)

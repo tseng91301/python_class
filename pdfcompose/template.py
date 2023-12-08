@@ -14,8 +14,21 @@ def data_i():
             "num":0,
             "info":[]
         },
+        "leadership":{
+            "num":0,
+            "info":[]
+        },
+        "skill":{
+            "num":0,
+            "info":[]
+        },
         "additional":{
             "num":0,
             "info":[]
+        },
+        "certification":{
+            "num":0,
+            "info":[]
         }
+        
     }
