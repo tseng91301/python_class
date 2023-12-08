@@ -136,7 +136,7 @@ def upload_data(inp,v=1,ext="pdf",name=""):
         "file_expire_unit":"DAY",
         "keepalive":1
     }
-    if(v):
+    if(v): # Virtual file data
         
         # 定义虚拟文件内容
         file_content = inp.encode('utf-8')
@@ -169,6 +169,14 @@ def formpdf(uid,arg):
     if(len(mode)==1):
         if(arg=="dump"):
             return json.dumps(data)
+        elif arg in ["Config upload","Config-u"]:
+            try:
+                js_txt=json.dumps(data)
+            except Exception as e:
+                return "System Error: \n"+str(e)
+            try:
+                r1=upload_data(js_txt,ext="json",name=str(datetime.ctime))
+            
         elif(re.match(r"^[Ee]{1}xport\s*$",arg)):
             reply=upload_data(tomd(data),ext="md")
             if(reply=="error"):

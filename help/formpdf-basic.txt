@@ -1,6 +1,10 @@
 In the basic section of mode formpdf
 you can send these four messages:
+
     1. Name: Then send your name in next message.
+
     2. Email: Then send your email in next message.
+
     3. Phone: Then send your phone number in next message.
+    
     4. Address: Then send your contact address number in next message.
