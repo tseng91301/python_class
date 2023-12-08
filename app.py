@@ -213,7 +213,7 @@ def formpdf(uid,arg):
         if(t1["msg"]!=""):
             ret=t1["msg"]
         elif(t1["help"]):
-            ret=help_mode(mode,t1["help_back"])
+            ret=help_mode(mode,2)
         else:
             ret="Operation successful"
     else:
