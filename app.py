@@ -179,6 +179,7 @@ def formpdf(uid,arg):
                 t1="Config file uploaded, copy the following link to download it.\n\n"
                 t1+=str(r1)
                 t1+="\nNotice: The file only stay on cloud FOR 15 DAYS!"
+                return t1
             except Exception as e:
                 return "Upload failed "+str(e)
         elif arg in ["Config use","Config download","Config-d"]:
