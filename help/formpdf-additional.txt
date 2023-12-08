@@ -1,0 +1,7 @@
+In the additional information section of mode formpdf
+You can share any Additional Information in this section
+
+you can send these four messages:
+    1. Add ('+'): add one piece of additional information you have.
+    2. Del: delete one piece of additional information in the system record.
+        You may send the number you want to delete in next message

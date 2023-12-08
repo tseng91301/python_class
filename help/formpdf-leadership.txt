@@ -1,0 +1,7 @@
+In the leadership experience section of mode formpdf
+You can share your Leadership Experiences in this section
+
+you can send these four messages:
+    1. Add ('+'): add one leadership experience you have.
+    2. Del: delete one leadership experience in the system record.
+        You may send the number you want to delete in next message

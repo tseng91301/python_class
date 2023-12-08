@@ -1,0 +1,7 @@
+In the professional experience section of mode formpdf
+You can input your Professional Experience in this section
+
+you can send these four messages:
+    1. Add ('+'): add one professional experience you have.
+    2. Del: delete one professional experience in the system record.
+        You may send the number you want to delete in next message
