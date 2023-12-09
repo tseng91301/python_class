@@ -124,6 +124,7 @@ def download():
         uid=request.values['uid']
         print(op)
         print(uid)
+        getenv.download_permission(uid)
         if(getenv.download_permission(uid)==op):
             if(op==1): #Operation to download file
                 response=make_response(str(json.dumps(getenv.get_data(uid))))
@@ -196,6 +197,7 @@ def formpdf(uid,arg):
             t1="Please visit the following link to access your config file: \n\n";
             t1+="https://line-pdf-bot.onrender.com/download"+"?uid="+uid+"&op=1\n\n"
             t1+="Note: The link is just available just ONCE!"
+            getenv.download_permission(uid,1)
             return t1
         elif arg in ["Config use","Config upload","Config-u"]:
             return "abc"
