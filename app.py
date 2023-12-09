@@ -157,6 +157,7 @@ def upload():
         try:
             file = request.files['file']
             file_content = file.stream.read().decode('utf-8')
+            print(file_content)
             file_content_js=json.loads(file_content)
             if(template.check_available(file_content_js)):
                 getenv.set_data(uid,file_content_js)
