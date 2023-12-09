@@ -164,8 +164,8 @@ def upload():
                 response.status_code=200
                 return response
             else:
-                raise Exception("Error handling data")
-        except Exception as e:
+                raise ValueError("Error handling data")
+        except ValueError as e:
             response=make_response("Error while uploading file: \n"+str(e))
             response.status_code=403
             return response
