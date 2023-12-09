@@ -91,6 +91,7 @@ def handle_message(event):
             mode=list(["formpdf"])
             getenv.set_mode(uid,mode)
             t1=help_mode(mode)
+            getenv.set_data(uid,template.data_i())
             line_bot_api.reply_message(event.reply_token, TextSendMessage(t1))
             return
         
