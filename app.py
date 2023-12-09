@@ -127,7 +127,7 @@ def download():
         print(getenv.download_permission(uid))
         if(getenv.download_permission(uid)==op):
             if(op==1): #Operation to download file
-                response=make_response(str(json.dumps(getenv.get_data(uid))))
+                response=make_response(str(getenv.get_data(uid)))
                 response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.json'
                 response.status_code=200
                 getenv.download_permission(uid,0)
