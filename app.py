@@ -128,7 +128,7 @@ def download():
         print(getenv.download_permission(uid))
         if(getenv.download_permission(uid)==op):
             if(op==1): #Operation to download file
-                response=make_response(str(getenv.get_data(uid)))
+                response=make_response(json.dumps(getenv.get_data(uid)))
                 response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.json'
                 response.status_code=200
                 getenv.download_permission(uid,0)
@@ -157,7 +157,7 @@ def upload():
         try:
             file = request.files['file']
             file_content = file.stream.read().decode('utf-8')
-            file_content=file_content.replace("'","\"")
+            #file_content=file_content.replace("'","\"")
             file_content_js=json.loads(file_content)
             if(template.check_available(file_content_js)):
                 getenv.set_data(uid,file_content_js)
