@@ -53,6 +53,8 @@ def download_permission(uid,val=-1):
             return 0
     else:
         os.environ[uid+"_dl_p"]=str(val)
+        print("download_permission(uid,1)")
+        print("dl_p="+os.getenv(uid+"_dl_p"))
         return
     
 def upload_permission(uid,val=-1):
