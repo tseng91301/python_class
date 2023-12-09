@@ -46,7 +46,7 @@ def set_data(uid,data):
     return
 
 def download_permission(uid,val=-1):
-    if(val!=-1):
+    if(val==-1):
         try:
             return int(os.getenv(uid+"_dl_p"))
         except:
