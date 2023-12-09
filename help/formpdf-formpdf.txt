@@ -20,8 +20,8 @@ Additional (Plus): Share your additional information(s)
 
 Export: finish the information collection and generate desired pdf file
 
-Cfg download: download the configuration file, containing the information you give
+Config-d: download the configuration file, containing the information you give (strongly recommend to do it while you are working)
 
-Cfg use: use the configuration file you downloaded previously (strongly recommend to do it at first)
+Config-u: use the configuration file you downloaded previously (strongly recommend to do it at first)
 
-Cfg dump: output the current configuration
+dump: output the current configuration
