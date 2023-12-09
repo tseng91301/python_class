@@ -58,7 +58,7 @@ def download_permission(uid,val=-1):
         return
     
 def upload_permission(uid,val=-1):
-    if(val!=-1):
+    if(val==-1):
         try:
             return int(os.getenv(uid+"_ul_p"))
         except:
