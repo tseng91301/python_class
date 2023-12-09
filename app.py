@@ -122,12 +122,18 @@ def download():
     if request.method=='GET':
         op=int(request.values['op'])
         uid=request.values['uid']
+        print(op)
+        print(uid)
         if(getenv.download_permission(uid)==op):
             if(op==1): #Operation to download file
                 response=make_response(str(json.dumps(getenv.get_data(uid))))
                 response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.json'
+                response.status_code=200
                 getenv.download_permission(uid,0)
                 return response
+        response=make_response("Abort!")
+        response.status_code=403
+        return response
             
 @app.route('/helloname', methods=['GET'])
 def helloname():
