@@ -5,10 +5,10 @@ app = Flask(__name__)
 @app.route('/download', methods=['GET'])
 def download():
     if request.method == 'GET':
-        op = request.values.get('op')
+        op=int(request.values['op'])
         uid = request.values.get('uid')
 
-        if op == '1':
+        if op == 1:
             # 执行文件下载的操作
 
             # 创建响应对象
