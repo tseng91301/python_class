@@ -153,7 +153,22 @@ def upload():
                 response.status_code=200
                 return response
     if request.method=='POST':
-        print("POST")
+        uid=request.values['uid']
+        try:
+            file = request.files['file']
+            file_content = file.stream.read().decode('utf-8')
+            file_content_js=json.loads(file_content)
+            if(template.check_available(file_content_js)):
+                getenv.set_data(uid,file_content_js)
+                response=make_response("Uploaded successfully!\n    You may go back to the chatroom now")
+                response.status_code=200
+                return response
+            else:
+                raise Exception("Error handling data")
+        except Exception as e:
+            response=make_response("Error while uploading file: \n"+str(e))
+            response.status_code=403
+            return response
     response=make_response("Abort!")
     response.status_code=403
     return response

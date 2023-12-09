@@ -1,5 +1,4 @@
-def data_i():
-    return {
+t_data={
         "basic":{
             "name":"",
             "email":"",
@@ -32,3 +31,20 @@ def data_i():
         }
         
     }
+
+def data_i():
+    return t_data
+
+def dict_contains(parent_dict:dict, child_dict:dict):
+    for key, value in parent_dict.items():
+        if isinstance(value,dict):
+            if(dict_contains(value,child_dict[key])):
+                continue
+            else:
+                return False
+        if key not in child_dict:
+            return False
+    return True
+
+def check_available(inp:dict,valid=t_data):
+    return dict_contains(valid,inp)
