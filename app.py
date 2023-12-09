@@ -124,7 +124,7 @@ def download():
         uid=request.values['uid']
         print(op)
         print(uid)
-        getenv.download_permission(uid)
+        print(getenv.download_permission(uid))
         if(getenv.download_permission(uid)==op):
             if(op==1): #Operation to download file
                 response=make_response(str(json.dumps(getenv.get_data(uid))))
