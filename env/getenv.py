@@ -48,20 +48,20 @@ def set_data(uid,data):
 def download_permission(uid,val=-1):
     if(val!=-1):
         try:
-            return int(os.getenv(uid+"_download_permission"))
+            return int(os.getenv(uid+"_dl_p"))
         except:
             return 0
     else:
-        os.environ[uid+"_download_permission"]=str(val)
+        os.environ[uid+"_dl_p"]=str(val)
         return
     
 def upload_permission(uid,val=-1):
     if(val!=-1):
         try:
-            return int(os.getenv(uid+"_upload_permission"))
+            return int(os.getenv(uid+"_ul_p"))
         except:
             return 0
     else:
-        os.environ[uid+"_upload_permission"]=str(val)
+        os.environ[uid+"_ul_p"]=str(val)
         return
         
