@@ -138,7 +138,7 @@ def download():
         return response
     
 @app.route('/upload', methods=['GET','POST'])
-def download():
+def upload():
     if request.method=='GET':
         op=int(request.values['op'])
         uid=request.values['uid']
