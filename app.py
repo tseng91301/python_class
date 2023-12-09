@@ -117,6 +117,9 @@ def welcome(event):
 @app.route('/')
 def hello():
     return 'Hello, World!'
+@app.route('/download')
+def download():
+
 
 
 def upload_data(inp,v=1,ext="pdf",name=""):
@@ -170,18 +173,9 @@ def formpdf(uid,arg):
         if(arg=="dump"):
             return json.dumps(data)
         elif arg in ["Config upload","Config-u"]:
-            try:
-                js_txt=json.dumps(data)
-            except Exception as e:
-                return "System Error: \n"+str(e)
-            try:
-                r1=upload_data(js_txt,ext="json")
-                t1="Config file uploaded, copy the following link to download it.\n\n"
-                t1+=str(r1)
-                t1+="\nNotice: The file only stay on cloud FOR 15 DAYS!"
-                return t1
-            except Exception as e:
-                return "Upload failed "+str(e)
+            t1="Please visit the following link to access your config file: \n\n";
+            t1+="https://line-pdf-bot.onrender.com/download"+"?uid="+uid+"&op=conf"
+            return t1
         elif arg in ["Config use","Config download","Config-d"]:
             return "abc"
             
