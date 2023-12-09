@@ -44,3 +44,24 @@ def get_data(uid):
 def set_data(uid,data):
     envjson_p(uid+"_data",data)
     return
+
+def download_permission(uid,val=-1):
+    if(val!=-1):
+        try:
+            return int(os.getenv(uid+"_download_permission"))
+        except:
+            return 0
+    else:
+        os.environ[uid+"download_permission"]=val
+        return
+    
+def upload_permission(uid,val=-1):
+    if(val!=-1):
+        try:
+            return int(os.getenv(uid+"_upload_permission"))
+        except:
+            return 0
+    else:
+        os.environ[uid+"upload_permission"]=val
+        return
+        

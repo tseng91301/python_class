@@ -1,5 +1,5 @@
 from flask import Flask, abort
-from flask import render_template
+from flask import render_template,make_response
 from flask import request
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -117,8 +117,22 @@ def welcome(event):
 @app.route('/')
 def hello():
     return 'Hello, World!'
-@app.route('/download')
+@app.route('/download', methods=['GET'])
 def download():
+    if request.method=='GET':
+        op=int(request.values['op'])
+        uid=request.values['uid']
+        if(getenv.download_permission(uid)==op):
+            if(op==1): #Operation to download file
+                response=make_response(str(json.dumps(getenv.get_data(uid))))
+                response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.json'
+                getenv.download_permission(uid,0)
+                return response
+            
+@app.route('/helloname', methods=['GET'])
+def helloname():
+    if request.method == 'GET': 
+        return 'Hello ' + request.values['username'] 
 
 
 
@@ -172,11 +186,12 @@ def formpdf(uid,arg):
     if(len(mode)==1):
         if(arg=="dump"):
             return json.dumps(data)
-        elif arg in ["Config upload","Config-u"]:
+        elif arg in ["Config download","Config-d"]:
             t1="Please visit the following link to access your config file: \n\n";
-            t1+="https://line-pdf-bot.onrender.com/download"+"?uid="+uid+"&op=conf"
+            t1+="https://line-pdf-bot.onrender.com/download"+"?uid="+uid+"&op=1\n\n"
+            t1+="Note: The link is just available just ONCE!"
             return t1
-        elif arg in ["Config use","Config download","Config-d"]:
+        elif arg in ["Config use","Config upload","Config-u"]:
             return "abc"
             
         elif(re.match(r"^[Ee]{1}xport\s*$",arg)):
