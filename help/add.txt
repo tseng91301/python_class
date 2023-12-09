@@ -1,0 +1,34 @@
+In the Add Section of mode formpdf:
+You can use this section to add new information to your document.
+
+When you want to add information, use the following commands:
+
+1. Basic Information:
+   - Command: 'Add Basic'
+   - Instructions: After this command, provide your Name, Email, Phone number, and Address in separate follow-up messages.
+
+2. Education Details:
+   - Command: 'Add Edu'
+   - Instructions: After this command, provide details like University Name, Degree Name, Key Achievements, University's City and Country, Graduation Month and Year in separate follow-up messages.
+
+3. Professional Experience:
+   - Command: 'Add Prof'
+   - Instructions: After this command, provide details like Organization Name, Position, Key Achievements, Location (City, Country), Employment Period in separate follow-up messages.
+
+4. Leadership Experience:
+   - Command: 'Add Lead'
+   - Instructions: After this command, provide details like Organization Name, Position, Key Achievements, Location (City, Country), Leadership Period in separate follow-up messages.
+
+5. Certifications:
+   - Command: 'Add Cert'
+   - Instructions: After this command, provide details of your Certifications in follow-up messages.
+
+6. Skills:
+   - Command: 'Add Skills'
+   - Instructions: After this command, provide details of your Skills in follow-up messages.
+
+7. Additional Information:
+   - Command: 'Add Plus'
+   - Instructions: After this command, provide any additional information in follow-up messages.
+
+Use these commands to add information to the respective sections. Ensure that each piece of information follows the format and guidelines specified for seamless integration into your document.
