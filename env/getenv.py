@@ -52,7 +52,7 @@ def download_permission(uid,val=-1):
         except:
             return 0
     else:
-        os.environ[uid+"download_permission"]=str(val)
+        os.environ[uid+"_download_permission"]=str(val)
         return
     
 def upload_permission(uid,val=-1):
@@ -62,6 +62,6 @@ def upload_permission(uid,val=-1):
         except:
             return 0
     else:
-        os.environ[uid+"upload_permission"]=val
+        os.environ[uid+"_upload_permission"]=str(val)
         return
         
