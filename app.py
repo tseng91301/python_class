@@ -136,6 +136,27 @@ def download():
         response=make_response("Abort!")
         response.status_code=403
         return response
+    
+@app.route('/upload', methods=['GET','POST'])
+def download():
+    if request.method=='GET':
+        op=int(request.values['op'])
+        uid=request.values['uid']
+        print(op)
+        print(uid)
+        print(getenv.upload_permission(uid))
+        if(getenv.upload_permission(uid)==op):
+            if(op==1): #Operation to download file
+                t1=open("upload_page/upl_1.html_p1").read()
+                t2=open("upload_page/upl_1.html_p2").read()
+                response=make_response(t1+uid+t2)
+                response.status_code=200
+                return response
+    if request.method=='POST':
+        print("POST")
+    response=make_response("Abort!")
+    response.status_code=403
+    return response
             
 @app.route('/helloname', methods=['GET'])
 def helloname():
@@ -192,16 +213,21 @@ def formpdf(uid,arg):
     
     # when not specified step
     if(len(mode)==1):
+        # Do something to configuration file
         if(arg=="dump"):
             return json.dumps(data)
         elif arg in ["Config download","Config-d"]:
-            t1="Please visit the following link to access your config file: \n\n";
+            t1="Please visit the following link to access your config file: \n\n"
             t1+="https://line-pdf-bot.onrender.com/download"+"?uid="+uid+"&op=1\n\n"
             t1+="Note: The link is just available just ONCE!"
             getenv.download_permission(uid,1)
             return t1
         elif arg in ["Config use","Config upload","Config-u"]:
-            return "abc"
+            t1="Please visit the following link to upload your configuration file: \n\n"
+            t1+="https://line-pdf-bot.onrender.com/upload"+"?uid="+uid+"&op=1\n\n"
+            t1+="Note: The link is just available just ONCE!"
+            getenv.upload_permission(uid,1)
+            return t1
             
         elif(re.match(r"^[Ee]{1}xport\s*$",arg)):
             reply=upload_data(tomd(data),ext="md")

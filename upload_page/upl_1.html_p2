@@ -1,0 +1,6 @@
+">
+        <input type="file" name="file" accept=".json" required><br/>
+        <button type="submit">Upload file</button>
+    </form>
+</body>
+</html>
