@@ -1,0 +1,11 @@
+To add professional experience:
+
+Please provide the following details in a single message, split by lines.
+
+1. Organization name
+2. Position
+3. Key achievements
+4. Location (City, Country)
+5. Employment period (Start month, year – End month, year)
+
+If nothing specified in the subtitle, leave the relative line BLANK.

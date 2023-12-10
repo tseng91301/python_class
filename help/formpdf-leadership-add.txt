@@ -1,0 +1,11 @@
+To add leadership experience:
+
+Please provide the following details in a single message, separated by lines.
+
+1. Organization name
+2. Position
+3. Key achievements
+4. Location (City, Country)
+5. Leadership period (Start month, year – End month, year)
+
+If nothing specified in the subtitle, leave the relative line BLANK.

@@ -1,0 +1,10 @@
+To add certifications:
+
+Please provide the following details in a single message, separated by lines.
+
+1. Certification name
+2. Issuing organization
+3. Date of issue
+4. Validity (if applicable)
+
+If nothing specified in the subtitle, leave the relative line BLANK.
