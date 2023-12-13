@@ -133,7 +133,7 @@ def download():
                 response.status_code=200
                 getenv.download_permission(uid,0)
                 return response
-        response=make_response("Abort!")
+        response=make_response("Forbidden!")
         response.status_code=403
         return response
     
@@ -170,7 +170,7 @@ def upload():
             response=make_response("Error while uploading file: \n"+str(e))
             response.status_code=403
             return response
-    response=make_response("Abort!")
+    response=make_response("Forbidden!")
     response.status_code=403
     return response
             
