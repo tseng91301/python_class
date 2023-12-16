@@ -1,0 +1,8 @@
+To add skills:
+
+Please list each skill in a single message, with a brief description.
+
+1. Skill name
+2. Description or proficiency level
+
+If nothing specified in the subtitle, leave the relative line BLANK.

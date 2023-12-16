@@ -1,0 +1,7 @@
+In the skills section of mode formpdf
+You can share your Skills in this section
+
+you can send these four messages:
+    1. Add ('+'): add one skill you have.
+    2. Del: delete one skill in the system record.
+        You may send the number you want to delete in next message
