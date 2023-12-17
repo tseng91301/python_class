@@ -14,8 +14,7 @@ import os
 
 #from module import pdfgen
 from env import getenv
-from pdfcompose.create_md import tomd
-from pdfcompose import template,form
+from pdfcompose import template,form,to_pdf
 from help.help import help,help_mode
 
 app = Flask(__name__)
@@ -127,9 +126,17 @@ def download():
         print(uid)
         print(getenv.download_permission(uid))
         if(getenv.download_permission(uid)==op):
-            if(op==1): #Operation to download file
+            if(op==1): #Operation to download configuration file
                 response=make_response(json.dumps(getenv.get_data(uid)))
                 response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.json'
+                response.status_code=200
+                getenv.download_permission(uid,0)
+                return response
+            if(op==2): #Operation to download pdf file
+                response=make_response()
+                response.data=to_pdf.gen(getenv.get_data(uid)).getvalue()
+                response.headers['Content-Type'] = 'application/pdf'
+                response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.pdf'
                 response.status_code=200
                 getenv.download_permission(uid,0)
                 return response
@@ -173,51 +180,6 @@ def upload():
     response=make_response("Forbidden!")
     response.status_code=403
     return response
-            
-@app.route('/helloname', methods=['GET'])
-def helloname():
-    if request.method == 'GET': 
-        return 'Hello ' + request.values['username'] 
-
-
-
-def upload_data(inp,v=1,ext="pdf",name=""):
-    inp=str(inp)
-    sendcm_first_url="https://send.cm/upload"
-    sendcm_first_response=requests.get(sendcm_first_url)
-    if(sendcm_first_response.status_code==200):
-        t1=sendcm_first_response.text
-        pattern = r'https://[^/]+.send.cm/cgi-bin/upload.cgi\?[^\s]+(?=\")'
-        upload_location=re.search(pattern,t1).group(0)
-        #print(upload_location)
-    else:
-        print("Get upload location failed with status code [{sendcm_first_response.status_code}]")
-
-    upl_form_data={
-        "utype":"anon",
-        "file_expire_unit":"DAY",
-        "keepalive":1
-    }
-    if(v): # Virtual file data
-        
-        # 定义虚拟文件内容
-        file_content = inp.encode('utf-8')
-
-        # 创建一个 BytesIO 对象，用于模拟文件对象
-        virtual_file = BytesIO(file_content)
-
-        response=requests.post(upload_location,data=upl_form_data,files={str(datetime.now())+'.'+str(ext):virtual_file})
-    else:
-        response=requests.post(upload_location,data=upl_form_data,files={'file_0':open(name,'rb')})
-    file_id=json.loads(response.text)[0]['file_code']
-    if(file_id=="undef"):
-        #print("Failed to upload file, remote banned")
-        return "error"
-
-    sendcm_getlink_url="https://send.cm/?op=upload_result&st=OK&fn="+file_id
-    t1=requests.get(sendcm_getlink_url).text
-    dl_link=(re.search(r'(?<=height:5px">).*?(?=<\/textarea>)',t1)).group(0)
-    return dl_link  
 
 def formpdf(uid,arg):
     mode=getenv.get_mode(uid)
@@ -245,11 +207,14 @@ def formpdf(uid,arg):
             getenv.upload_permission(uid,1)
             return t1
             
+        # Export pdf file
         elif(re.match(r"^[Ee]{1}xport\s*$",arg)):
-            reply=upload_data(tomd(data),ext="md")
-            if(reply=="error"):
-                return "Upload error, maybe you upload too many times on the same content"
-            return "Click the link to reach the file: "+reply
+            t1="Please visit the following link to access your pdf file: \n\n"
+            t1+="https://line-pdf-bot.onrender.com/download"+"?uid="+uid+"&op=2\n\n"
+            t1+="Note: The link is just available just ONCE!"
+            getenv.download_permission(uid,2) #op=2 represent the pdf file operation
+            return t1
+        
         if arg in ["Basic","B","basic"]:
             mode=[mode[0],"basic"]
             getenv.set_mode(uid,mode)
