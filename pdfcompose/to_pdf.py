@@ -1,6 +1,7 @@
 from fpdf import FPDF
 import json
 import os
+from io import BytesIO
 
 def load_json_data(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -117,5 +118,8 @@ def gen(json_data,pdf_file_name="out.pdf"):
         for item in json_data['certification']['info']:
             pdf.school_title([f"{item['t']}"])
 
-    # Save PDF to file
-    pdf.output(pdf_file_name)
+    # Return PDF as byteIO object
+    outf=BytesIO()
+    outf.write(pdf.output(dest='S').encode("latin1")) # Will return as string and encode as "latin1"
+    outf.seek(0)
+    return outf
