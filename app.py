@@ -15,7 +15,7 @@ import os
 #from module import pdfgen
 from env import getenv
 from pdfcompose.create_md import tomd
-from pdfcompose import template,form
+from pdfcompose import template,form,to_pdf
 from help.help import help,help_mode
 
 app = Flask(__name__)
