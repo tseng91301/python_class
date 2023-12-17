@@ -134,11 +134,16 @@ def download():
                 return response
             if(op==2): #Operation to download pdf file
                 response=make_response()
-                response.data=to_pdf.gen(getenv.get_data(uid)).getvalue()
-                response.headers['Content-Type'] = 'application/pdf'
-                response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.pdf'
-                response.status_code=200
-                getenv.download_permission(uid,0)
+                try:
+                    response.data=to_pdf.gen(getenv.get_data(uid)).getvalue()
+                    response.headers['Content-Type'] = 'application/pdf'
+                    response.headers['Content-Disposition'] = 'attachment; filename='+uid+'.pdf'
+                    response.status_code=200
+                    getenv.download_permission(uid,0)
+                except Exception as e:
+                    response=make_response(str(e))
+                    response.status_code=500
+                    return response
                 return response
         response=make_response("Forbidden!")
         response.status_code=403
