@@ -248,6 +248,7 @@ def detail(mode:list,data,arg:str):
                         ins_data.append(int(v))
                     data["skill"]["info"]=rmv(data["skill"]["info"],ins_data)
                     data["skill"]["num"]-=len(ins_data)
+                    data["skill"]["num"]+=1
                 except:
                     ret["msg"]="Failed to delete, please make sure you insert the right way."
                 goback=1
