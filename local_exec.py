@@ -113,6 +113,7 @@ def handle_message(msg):
         print(help_mode(mode))
     else:formpdf(msg)
 
+print(help_mode(mode))
 while(1):
     msgin=input(f"\n{json.dumps(mode)}Input the command >>> ")
     t1=handle_message(msgin)
