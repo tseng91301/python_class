@@ -1,6 +1,6 @@
 To add skills:
 
-Please list each skill in a single message, with a brief description.
+Please list each skill in a single message, with a brief description (divide by '|').
 
 1. Skill name
 2. Description

@@ -1,6 +1,6 @@
 To add things in education section:
 
-Please give 5 details in a message, split by divided lines.
+Please give 5 details in a message (divide by '|').
 
 1. University or College name
 2. Degree name

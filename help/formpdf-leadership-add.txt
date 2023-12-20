@@ -1,6 +1,6 @@
 To add leadership experience:
 
-Please provide the following details in a single message, separated by lines.
+Please provide the following details in a single message (divide by '|').
 
 1. Organization name
 2. Position

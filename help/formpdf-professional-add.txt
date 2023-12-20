@@ -1,6 +1,6 @@
 To add professional experience:
 
-Please provide the following details in a single message, split by lines.
+Please provide the following details in a single message (divide by '|').
 
 1. Organization name
 2. Position

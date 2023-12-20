@@ -35,7 +35,7 @@ def detail(mode:list,data,arg:str):
         elif(check_exist(mode,["education"])):
             if(check_exist(mode,["add"])):
                 try:
-                    ins_data=arg.split("\n")
+                    ins_data=arg.split("|")
                     for n,v in enumerate(ins_data):
                         ins_data[n]=v.strip()
                     data["education"]["info"].append({}) #add one space
@@ -85,7 +85,7 @@ def detail(mode:list,data,arg:str):
         elif(check_exist(mode,["professional"])):
             if(check_exist(mode,["add"])):
                 try:
-                    ins_data=arg.split("\n")
+                    ins_data=arg.split("|")
                     for n,v in enumerate(ins_data):
                         ins_data[n]=v.strip()
                     data["professional"]["info"].append({}) #add one space
@@ -135,7 +135,7 @@ def detail(mode:list,data,arg:str):
         elif(check_exist(mode,["leadership"])):
             if(check_exist(mode,["add"])):
                 try:
-                    ins_data=arg.split("\n")
+                    ins_data=arg.split("|")
                     for n,v in enumerate(ins_data):
                         ins_data[n]=v.strip()
                     data["leadership"]["info"].append({}) #add one space
@@ -184,14 +184,15 @@ def detail(mode:list,data,arg:str):
         # The function used in certification section
         elif(check_exist(mode,["certification"])):
             if(check_exist(mode,["add"])):
+                data["certification"]["info"].append({}) #add one space
                 try:
-                    ins_data=arg.split("\n")
+                    ins_data=arg.split("|")
                     d1={}
                     d1["t"]=ins_data[0]
                     d1["org"]=ins_data[1]
                     d1["date"]=ins_data[2]
                     d1["validity"]=ins_data[3]
-                    data["certification"]["info"].append(d1) #add one space
+                    data["certification"]["info"][data["certification"]["num"]]=d1 #add one space
                     data["certification"]["num"]+=1
                     goback=1
                 except:
@@ -228,13 +229,15 @@ def detail(mode:list,data,arg:str):
         # The function used in skill section
         elif(check_exist(mode,["skill"])):
             if(check_exist(mode,["add"])):
+                data["skill"]["info"].append({}) #add one space
                 try:
-                    ins_data=arg.split("\n")
+                    ins_data=arg.split("|")
                     d1={}
                     d1["t"]=ins_data[0]
                     d1["description"]=ins_data[1]
                     d1["proficiency"]=ins_data[2]
                     data["skill"]["info"].append(d1) #add one space
+                    data["skill"]["info"][data["skill"]["num"]]=d1
                     goback=1
                 except:
                     ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
@@ -271,11 +274,12 @@ def detail(mode:list,data,arg:str):
         elif(check_exist(mode,["additional"])):
             if(check_exist(mode,["add"])):
                 try:
-                    ins_data=arg.split("\n")
+                    data["additional"]["info"].append({}) #add one space
+                    ins_data=arg.split("|")
                     d1={}
                     d1["t"]=ins_data[0]
                     d1["description"]=ins_data[1]
-                    data["additional"]["info"].append(d1) #add one space
+                    data["additional"]["info"][data["additional"]["num"]]=d1 #add one space
                     data["additional"]["num"]+=1
                     goback=1
                 except:

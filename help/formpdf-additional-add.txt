@@ -1,6 +1,6 @@
 To add additional information:
 
-Please list each additional information in a single message, with a brief description.
+Please list each additional information in a single message, with a brief description (divide by '|').
 
 1. Title
 2. Description
