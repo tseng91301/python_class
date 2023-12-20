@@ -71,13 +71,14 @@ def gen(json_data,pdf_file_name="out.pdf"):
     pdf.set_font("Arial", style='', size=10)
 
     # Education
-    pdf.chapter_title('EDUCATION')
-    for edu in json_data['education']['info']:
-        pdf.little_title([f"{edu['un']}"])
-        pdf.school_title([f"{edu['dn']}", f"{edu['ka']}"])
-        pdf.set_font("Arial", style='B', size=10)
-        pdf.cell_checkword(0, 10, f"{edu['cc']}, {edu['gmy']}", 0, 1, 'R')
-        pdf.set_font("Arial", style='', size=10)
+    if json_data['education']['num'] > 0:
+        pdf.chapter_title('EDUCATION')
+        for edu in json_data['education']['info']:
+            pdf.little_title([f"{edu['un']}"])
+            pdf.school_title([f"{edu['dn']}", f"{edu['ka']}"])
+            pdf.set_font("Arial", style='B', size=10)
+            pdf.cell_checkword(0, 10, f"{edu['cc']}, {edu['gmy']}", 0, 1, 'R')
+            pdf.set_font("Arial", style='', size=10)
 
     # PRACTICAL EXPERIENCE  (if any)
     if json_data['professional']['num'] > 0:
