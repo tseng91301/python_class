@@ -23,6 +23,8 @@ class PDF(FPDF):
         self.add_font('times new roman', 'B', 'fonts/times new roman B.ttf', uni=True)
         self.add_font('times new roman', 'I', 'fonts/times new roman I.ttf', uni=True)
         self.add_font('Chinese Jenhei', '','fonts/R-PMingLiU-TW-2.ttf', uni=True) # The default non-ascii word definition
+        self.add_font('Chinese Jenhei', 'B','fonts/R-PMingLiU-TW-2.ttf', uni=True) # The default non-ascii word definition
+        self.add_font('Chinese Jenhei', 'I','fonts/R-PMingLiU-TW-2.ttf', uni=True) # The default non-ascii word definition
         self.set_font('times new roman', '', 10)  # 設置字體
 
     def cell_checkword(self, w,h=0,txt='',border=0,ln=0,align='',fill=0,link=''):

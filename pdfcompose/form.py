@@ -300,7 +300,7 @@ def detail(mode:list,data,arg:str):
                 t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
                 for n,v in enumerate(data["additional"]["info"]):
                     t1+=str(n)+":\n"
-                    t1+="   Title: "+str(v["on"])+"\n"
+                    t1+="   Title: "+str(v["t"])+"\n"
                     t1+="   Description: "+str(v["description"])+"\n"
                 ret["msg"]=t1
             else:
