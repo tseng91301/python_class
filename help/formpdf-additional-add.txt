@@ -1,0 +1,8 @@
+To add additional information:
+
+Please list each additional information in a single message, with a brief description.
+
+1. Title
+2. Description
+
+If nothing specified in the subtitle, leave the relative line BLANK.

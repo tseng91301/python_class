@@ -102,21 +102,30 @@ def gen(json_data,pdf_file_name="out.pdf"):
         pdf.chapter_title('SKILL')
         for item in json_data['skill']['info']:
             pdf.little_title([f"{item['t']}"])
-            pdf.chapter_body([f"Description: {item['Description']}"])
-            pdf.chapter_body([f"Importance: {item['Importance']}"])
-
+            if(item['description']!=""):
+                pdf.chapter_body([f"Description: {item['description']}"])
+            if(item['proficiency']!=""):
+                pdf.chapter_body([f"Proficiency level: {item['proficiency']}"])
+            
     # Additional (if any)
     if json_data['additional']['num'] > 0:
         pdf.chapter_title('ADDITIONAL')
         for item in json_data['additional']['info']:
             pdf.little_title([f"{item['t']}"])
-            pdf.chapter_body([f"Description: {item['Description']}"])
+            if(item['description']!=""):
+                pdf.chapter_body([f"Description: {item['description']}"])
 
     # Certification (if any)
     if json_data['certification']['num'] > 0:
         pdf.chapter_title('CERTIFICATION')
         for item in json_data['certification']['info']:
             pdf.school_title([f"{item['t']}"])
+            if(item['org']!=""):
+                pdf.chapter_body([f"Issuing organization: {item['org']}"])
+            if(item['date']!=""):
+                pdf.chapter_body([f"Date of issue: {item['date']}"])
+            if(item['validity']!=""):
+                pdf.chapter_body([f"Validity: {item['validity']}"])
 
     # Return PDF as byteIO object
     outf=BytesIO()

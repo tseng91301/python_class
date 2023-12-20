@@ -186,17 +186,11 @@ def detail(mode:list,data,arg:str):
             if(check_exist(mode,["add"])):
                 try:
                     ins_data=arg.split("\n")
-                    title=ins_data[0].strip()
                     d1={}
-                    d1["t"]=title
-                    for n,v in enumerate(ins_data):
-                        if(n!=0):
-                            l1=ins_data[n].split(":")
-                            try:
-                                d1[l1[0].strip()]=l1[1].strip()
-                            except:
-                                continue
-                        ins_data[n]=v.strip()
+                    d1["t"]=ins_data[0]
+                    d1["org"]=ins_data[1]
+                    d1["date"]=ins_data[2]
+                    d1["validity"]=ins_data[3]
                     data["certification"]["info"].append(d1) #add one space
                     data["certification"]["num"]+=1
                     goback=1
@@ -222,11 +216,11 @@ def detail(mode:list,data,arg:str):
                 mode.append("del")
                 t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
                 for n,v in enumerate(data["certification"]["info"]):
-                    t1+=str(n)+"("+str(v["t"])+")"+":\n"
-                    for n2,v2 in enumerate(v):
-                        if(n2==0):
-                            continue
-                        t1+="   "+v2+": "+v[v2]+"\n"
+                    t1+=str(n)+":\n"
+                    t1+="   Certification name: "+str(v["t"])+"\n"
+                    t1+="   Issuing organization: "+str(v["org"])+"\n"
+                    t1+="   Date of issue: "+str(v["date"])+"\n"
+                    t1+="   Validity: "+str(v["validity"])+"\n"
                 ret["msg"]=t1
             else:
                 ret["msg"]="Unknown command in basic -> certification '"+arg+"' !"
@@ -236,19 +230,11 @@ def detail(mode:list,data,arg:str):
             if(check_exist(mode,["add"])):
                 try:
                     ins_data=arg.split("\n")
-                    title=ins_data[0].strip()
                     d1={}
-                    d1["t"]=title
-                    for n,v in enumerate(ins_data):
-                        if(n!=0):
-                            l1=ins_data[n].split(":")
-                            try:
-                                d1[l1[0].strip()]=l1[1].strip()
-                            except:
-                                continue
-                        ins_data[n]=v.strip()
+                    d1["t"]=ins_data[0]
+                    d1["description"]=ins_data[1]
+                    d1["proficiency"]=ins_data[2]
                     data["skill"]["info"].append(d1) #add one space
-                    data["skill"]["num"]+=1
                     goback=1
                 except:
                     ret["msg"]="Failed to record, please make sure you insert the right way and re-send."
@@ -272,11 +258,10 @@ def detail(mode:list,data,arg:str):
                 mode.append("del")
                 t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
                 for n,v in enumerate(data["skill"]["info"]):
-                    t1+=str(n)+"("+str(v["t"])+")"+":\n"
-                    for n2,v2 in enumerate(v):
-                        if(n2==0):
-                            continue
-                        t1+="   "+v2+": "+v[v2]+"\n"
+                    t1+=str(n)+":\n"
+                    t1+="   Skill name: "+str(v["t"])+"\n"
+                    t1+="   Description: "+str(v["description"])+"\n"
+                    t1+="   Proficiency level: "+str(v["proficiency"])+"\n"
                 ret["msg"]=t1
             else:
                 ret["msg"]="Unknown command in basic -> skill '"+arg+"' !"
@@ -286,17 +271,9 @@ def detail(mode:list,data,arg:str):
             if(check_exist(mode,["add"])):
                 try:
                     ins_data=arg.split("\n")
-                    title=ins_data[0].strip()
                     d1={}
-                    d1["t"]=title
-                    for n,v in enumerate(ins_data):
-                        if(n!=0):
-                            l1=ins_data[n].split(":")
-                            try:
-                                d1[l1[0].strip()]=l1[1].strip()
-                            except:
-                                continue
-                        ins_data[n]=v.strip()
+                    d1["t"]=ins_data[0]
+                    d1["description"]=ins_data[1]
                     data["additional"]["info"].append(d1) #add one space
                     data["additional"]["num"]+=1
                     goback=1
@@ -322,11 +299,9 @@ def detail(mode:list,data,arg:str):
                 mode.append("del")
                 t1="Send a number to delete the following item or use ',' between numbers to delete multiple items.\n\n"
                 for n,v in enumerate(data["additional"]["info"]):
-                    t1+=str(n)+"("+str(v["t"])+")"+":\n"
-                    for n2,v2 in enumerate(v):
-                        if(n2==0):
-                            continue
-                        t1+="   "+v2+": "+v[v2]+"\n"
+                    t1+=str(n)+":\n"
+                    t1+="   Title: "+str(v["on"])+"\n"
+                    t1+="   Description: "+str(v["description"])+"\n"
                 ret["msg"]=t1
             else:
                 ret["msg"]="Unknown command in basic -> additional '"+arg+"' !"
